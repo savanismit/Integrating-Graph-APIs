@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block sub_body %}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <header class="card-header">
+                    <h4 class="card-title mt-2"><div class="text-center"><h2>Sign Up</h2></div></h4><hr>
+                </header>
+                <article class="card-body">
+                <form method = "POST", action="/signup">
+                    {{ form.hidden_tag() }}
+                    {{ wtf.form_field(form.firstname) }}
+                    {{ wtf.form_field(form.lastname) }}
+                    {{ wtf.form_field(form.username) }}
+                    {{ wtf.form_field(form.email) }}
+                    {{ wtf.form_field(form.password) }}
+                    {{ wtf.form_field(form.confirmpassword) }}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block">Register</button>
+                    </div>
+                    <small class="text-muted">By clicking the 'Sign Up' button, you confirm that you accept our Terms of use and Privacy Policy.</small>
+                </form>
+                </article>
+                <div class="border-top card-body text-center">Have an account? <a href="/login/">Log In</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+</article>
+{% endblock %}
