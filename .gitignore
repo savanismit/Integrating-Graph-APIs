@@ -2,6 +2,7 @@ venv/
 *.pyc
 .__pycacha__
 .idea
+.gitignore
 
 # User-specific stuff
 .idea/**/workspace.xml
