@@ -3,7 +3,7 @@ from .models import User
 
 @app.route("/")
 def index():
-    return "Hello Smit!"
+    return "Hello Smit Savani!"
 
 @app.route("/about")
 def about():
