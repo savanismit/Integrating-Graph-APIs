@@ -95,10 +95,6 @@ class signup(Resource):
 
 # @app.route('/logout')
 # @login_required
-
-#@app.route('/logout')
-#@login_required
-
 class logout(Resource):
     def get(self):
         session.clear()
@@ -113,15 +109,13 @@ class createContact(Resource):
         return make_response(render_template('dashboard.html', form=form))
 
     def post(self):
-        print("hello")
         form = PersonalContactForm()
-        if form.validate_on_submit():
-            url = 'https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/contacts'
-            headers = {
+        url = 'https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/contacts'
+        headers = {
                 'Authorization': 'Bearer {}'.format(generatetoken()),
                 'Content-Type': 'application/json'
             }
-            body = {
+        body = {
                 "givenName": form.firstname.data,
                 "surname": form.lastname.data,
                 "emailAddresses": [
@@ -133,7 +127,8 @@ class createContact(Resource):
                     form.mobilenumber.data
                 ]
             }
-            r = requests.post(url, headers=headers, data=json.dumps(body))
+        r = requests.post(url, headers=headers, data=json.dumps(body))
+        print(r.json())
         return make_response(render_template('AddContactSuccess.html'))
 
 

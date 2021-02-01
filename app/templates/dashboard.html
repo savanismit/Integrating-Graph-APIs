@@ -4,27 +4,30 @@
 {% block sub_body %}
 <!-- Page content -->
 <div class="main">
-  <form action="/createContact" method="post">
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="firstname">Firstname</label>
-        <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Firstname">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="lastname">Lastname</label>
-        <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Lastname">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
-      </div>
-         <div class="form-group col-md-6">
-        <label for="mobilenumber">mobilenumber</label>
-        <input type="text" class="form-control" id="mobilenumber" name="mobilenumber" placeholder="mobilenumber">
-      </div>
-
-      <input type="submit" class="btn btn-primary" value="submit">
-      </div>
-  </form>
+  <div class=".center">
+    <form action="/createContact" method="POST">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="firstname">Firstname</label>
+          <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Firstname">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="lastname">Lastname</label>
+          <input type="lastname" class="form-control" id="lastname" name="lastname" placeholder="Lastname">
+        </div>
+        <div class="form-group col-md-12">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+        </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label for="mobilenumber">Mobile No.</label>
+            <input type="text" class="form-control" id="mobilenumber" name="mobilenumber" placeholder="Mobile no.">
+          </div>
+          </div>
+        <button type="submit" class="btn btn-primary">Sign in</button>
+    </form>
+  </div>
 </div>
 {% endblock  %}

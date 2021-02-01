@@ -4,13 +4,17 @@
     {% block head %}
         <title>{% block title %}{% endblock %}Dashboard</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/dashboard_style.css') }}">
+        <script src="https://kit.fontawesome.com/a81368914c.js"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     {% endblock %}
 </head>
 <body>
 {% block navbar %}
+    <div id="logo">
+        <img src="{{url_for('static', filename='')}}" />
+    </div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <a class="navbar-brand" href="#">Dashboard</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -19,10 +23,10 @@
           <li class="nav-item active">
             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Aboutus <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item">
+            <li class="nav-item active">
             <a class="nav-link" href="#">Logout <span class="sr-only">(current)</span></a>
           </li>
         </ul>
@@ -44,10 +48,10 @@
     {% block sidebar %}
         <div class="sidenav">
             <div class="text">
-              <a href="#about">About</a>
-              <a href="#services">Services</a>
-              <a href="#clients">Clients</a>
-              <a href="#contact">Contact</a>
+              <a href="#about">Contacts</a>
+              <a href="#services">Report</a>
+              <a href="#clients">Mail</a>
+              <a href="#contact">Calendar</a>
             </div>
         </div>
     {% endblock %}

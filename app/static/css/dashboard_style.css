@@ -1,3 +1,25 @@
+/*Form*/
+.center {
+  margin: 0 auto;
+  width: 100%;
+}
+
+form {
+  margin: 0 auto;
+  width: 600px; /*find your value*/
+  text-align: center;
+}
+
+/*Logo*/
+#logo{
+	position:fixed;
+	height: 50%;
+    width: 2px;
+	top:0;
+	left:0;
+}
+
+/*Sidebar*/
 .sidenav {
     margin-top:55px;
   height: 100%;
@@ -23,16 +45,19 @@
   color: #f1f1f1;
 }
 
+/*Main Content*/
 .main {
   margin-left: 200px; /* Same as the width of the sidenav */
   font-size: 28px; /* Increased text to enable scrolling */
-  padding: 0px 10px;
+  padding: 50px 10px;
 }
 
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
+
+/*Navbar*/
 nav{
     margin-left: 200px;
 }
