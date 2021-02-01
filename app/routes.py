@@ -59,7 +59,7 @@ class signup(Resource):
             return redirect(url_for('login'))
 
 #@app.route('/logout')
-#@login_required
+@login_required
 class logout(Resource):
     def get(self):
         session.clear()
