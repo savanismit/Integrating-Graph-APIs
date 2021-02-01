@@ -1,5 +1,31 @@
-<html>
-<body>
-<p>Login Successful!</p>
-</body>
-</html>
+{% extends 'dashboard_layout.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block sub_body %}
+<!-- Page content -->
+<div class="main">
+  <form>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="firstname">Firstname</label>
+        <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Firstname">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="lastname">Lastname</label>
+        <input type="lastname" class="form-control" id="lastname" name="lastname" placeholder="Lastname">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+      </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="contact">Mobile No.</label>
+          <input type="text" class="form-control" id="contact" name="contact" placeholder="Mobile no.">
+        </div>
+        </div>
+      <button type="submit" class="btn btn-primary">Sign in</button>
+  </form>
+</div>
+{% endblock  %}

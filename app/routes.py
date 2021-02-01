@@ -22,7 +22,7 @@ class index(Resource):
     def __init__(self):
         pass
     def get(self):
-        return make_response(render_template('index.html'))
+        return make_response(render_template('dashboard.html'))
 
 #@app.route('/login', methods=['GET','POST'])
 class login(Resource):
@@ -59,7 +59,7 @@ class signup(Resource):
             return redirect(url_for('login'))
 
 #@app.route('/logout')
-@login_required
+#@login_required
 class logout(Resource):
     def get(self):
         session.clear()
