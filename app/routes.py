@@ -138,7 +138,7 @@ class createContact(Resource):
 
 
 api.add_resource(index, '/')
-api.add_resource(login, '/login')
+api.add_resource(login, '/login/')
 api.add_resource(signup, '/signup')
 api.add_resource(logout, '/logout')
 api.add_resource(createContact, '/createContact')
