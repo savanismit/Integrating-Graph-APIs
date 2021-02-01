@@ -1,22 +1,31 @@
 {% extends 'bootstrap/base.html' %}
-{% block title %}
-    Demo
-{% endblock  %}
+<html>
+<head>
+    {% block head %}
+    <title>{% block title %}{% endblock %}MyWebsite</title>
+    {% endblock %}
+</head>
+<body>
+    {% block navbar %}
 
-{% block content %}
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    <ul>
-        {% for category, message in messages %}
-        <strong><div class="alert alert-{{ category }}">{{message}}</div></strong>
-        {% endfor %}
-    </ul>
-    {% endif %}
-{% endwith %}
-    {% block sub_body %}
+    {% endblock %}
 
+    {% block content %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <strong><div class="alert alert-{{ category }}">{{message}}</div></strong>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% block sub_body %}
+
+        {% endblock  %}
+
+        {% block footer_block %}
+
+        {% endblock  %}
     {% endblock  %}
-    {% block f_block %}
-
-    {% endblock  %}
-{% endblock  %}

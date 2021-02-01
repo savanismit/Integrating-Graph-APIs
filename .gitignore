@@ -3,6 +3,7 @@ venv/
 .__pycacha__
 .idea
 .gitignore
+.database.db
 
 # User-specific stuff
 .idea/**/workspace.xml
