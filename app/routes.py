@@ -21,7 +21,7 @@ login_manager.login_view = 'login'
 
 
 def generatetoken():
-    with open('credential.json') as f:
+    with open('app/credential.json') as f:
         credentials = json.load(f)
 
     appMS = ConfidentialClientApplication(
@@ -52,7 +52,7 @@ class index(Resource):
         pass
 
     def get(self):
-        return make_response(render_template('index.html'))
+        return make_response(render_template('dashboard.html'))
 
 
 # @app.route('/login', methods=['GET','POST'])
@@ -92,8 +92,13 @@ class signup(Resource):
             return redirect(url_for('login'))
 
 
+
 # @app.route('/logout')
 # @login_required
+
+#@app.route('/logout')
+#@login_required
+
 class logout(Resource):
     def get(self):
         session.clear()
@@ -108,6 +113,7 @@ class createContact(Resource):
         return make_response(render_template('dashboard.html', form=form))
 
     def post(self):
+        print("hello")
         form = PersonalContactForm()
         if form.validate_on_submit():
             url = 'https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/contacts'
@@ -124,13 +130,11 @@ class createContact(Resource):
                     }
                 ],
                 "businessPhones": [
-                    form.mobileNumber.data
+                    form.mobilenumber.data
                 ]
             }
             r = requests.post(url, headers=headers, data=json.dumps(body))
-            data = r.json()
-            print(data)
-        return make_response(render_template('AddContactSuccess.html', data=data))
+        return make_response(render_template('AddContactSuccess.html'))
 
 
 api.add_resource(index, '/')

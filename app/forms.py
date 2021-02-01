@@ -4,8 +4,9 @@ from wtforms.validators import InputRequired, Email, Length, regexp
 
 
 class LoginForm(FlaskForm):
-    username = StringField('username',validators = [InputRequired(),Length(min=4,max=20)])
-    password = PasswordField('password',validators = [InputRequired(),Length(min=8,max=100)])
+    username = StringField('username', validators=[InputRequired(), Length(min=4, max=20)])
+    password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=100)])
+
 
 class SignupForm(FlaskForm):
     firstname = StringField('firstname')
@@ -15,9 +16,9 @@ class SignupForm(FlaskForm):
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=100)])
     confirmpassword = PasswordField('confirmpassword', validators=[InputRequired(), Length(min=8, max=100)])
 
+
 class PersonalContactForm(FlaskForm):
     firstname = StringField('firstname')
     lastname = StringField('lastname')
-    email = StringField('email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
-    mobileNumber = StringField('contact',validators=[InputRequired(),Length(min=10, max=10),regexp(regex='^[+-]?[0-9]$')])
-
+    email = StringField('email')
+    mobilenumber = StringField('mobilenumber')
