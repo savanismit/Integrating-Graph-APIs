@@ -13,12 +13,14 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
 def generatetoken():
-    with open('app/credential.json') as f:
+    with open('app/json_files/credential.json') as f:
         credentials = json.load(f)
 
     appMS = ConfidentialClientApplication(
@@ -37,6 +39,7 @@ def generatetoken():
     token = result['access_token']
     return token
 
+
 # @app.route('/index')
 class index(Resource):
     def __init__(self):
@@ -44,6 +47,7 @@ class index(Resource):
 
     def get(self):
         return make_response(render_template('index.html'))
+
 
 # @app.route('/login', methods=['GET','POST'])
 class login(Resource):
@@ -60,6 +64,7 @@ class login(Resource):
                     login_user(user)
                     return make_response(render_template('dashboard.html', form=form))
             flash('Invalid Username or Password', 'danger')
+
 
 # @app.route('/signup', methods=['GET','POST'])
 class signup(Resource):
@@ -80,6 +85,7 @@ class signup(Resource):
             db.session.commit()
             return redirect(url_for('login'))
 
+
 # @app.route('/logout')
 # @login_required
 class logout(Resource):
@@ -87,6 +93,7 @@ class logout(Resource):
         session.clear()
         logout_user()
         return redirect(url_for('index'))
+
 
 # create contact
 class createContact(Resource):
@@ -96,27 +103,22 @@ class createContact(Resource):
 
     def post(self):
         form = PersonalContactForm()
+        with open('app/json_files/body.json') as f:
+            body = json.load(f)
         if form.validate_on_submit():
             url = 'https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/contacts'
             headers = {
-                    'Authorization': 'Bearer {}'.format(generatetoken()),
-                    'Content-Type': 'application/json'
-                }
-            body = {
-                    "givenName": form.firstname.data,
-                    "surname": form.lastname.data,
-                    "emailAddresses": [
-                        {
-                            "address": form.email.data
-                        }
-                    ],
-                    "businessPhones": [
-                        form.mobilenumber.data
-                    ]
-                }
+                'Authorization': 'Bearer {}'.format(generatetoken()),
+                'Content-Type': 'application/json'
+            }
+            body["contactBody"]["givenName"] = form.firstname.data
+            body["contactBody"]["surname"] = form.lastname.data
+            body["contactBody"]["emailAddresses"][0]["address"] = form.email.data
+            body["contactBody"]["businessPhones"][0] = form.mobilenumber.data
+            body = body["contactBody"]
             r = requests.post(url, headers=headers, data=json.dumps(body))
-            print(r.json())
             return make_response(render_template('AddContactSuccess.html'))
+
 
 # List contact
 class listContact(Resource):
@@ -129,6 +131,7 @@ class listContact(Resource):
         data = requests.get(url, headers=headers)
         data = data.json()
         return data
+
 
 # Microsoft teams user activity(get)
 class getUserActivity(Resource):
@@ -250,6 +253,6 @@ api.add_resource(getTeamsUserActivityUserCounts, '/getTeamsUserActivityUserCount
 api.add_resource(getEmailActivityUserDetail, '/getEmailActivityUserDetail')
 api.add_resource(getEmailActivityCounts, '/getEmailActivityCounts')
 api.add_resource(getEmailActivityUserCounts, '/getEmailActivityUserCounts')
-api.add_resource(getOneDriveActivityUserDetail,'/getOneDriveActivityUserDetail')
-api.add_resource(getOneDriveActivityUserCounts,'/getOneDriveActivityUserCounts')
-api.add_resource(getOneDriveActivityFileCounts,'/getOneDriveActivityFileCounts')
+api.add_resource(getOneDriveActivityUserDetail, '/getOneDriveActivityUserDetail')
+api.add_resource(getOneDriveActivityUserCounts, '/getOneDriveActivityUserCounts')
+api.add_resource(getOneDriveActivityFileCounts, '/getOneDriveActivityFileCounts')

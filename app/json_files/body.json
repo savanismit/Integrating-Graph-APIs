@@ -1,0 +1,14 @@
+{
+  "contactBody":  {
+                    "givenName": "your name",
+                    "surname": "your surname",
+                    "emailAddresses": [
+                        {
+                            "address": "your email address"
+                        }
+                    ],
+                    "businessPhones": [
+                        "your phone number"
+                    ]
+                }
+}
