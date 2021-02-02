@@ -134,7 +134,7 @@ class listContact(Resource):
 
         data = requests.get(url, headers=headers)
         data = data.json()
-        return data
+        return make_response(render_template("showContact.html",data=data))
 
 # Microsoft teams user activity(get)
 class getUserActivity(Resource):
