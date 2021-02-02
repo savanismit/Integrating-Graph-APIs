@@ -7,23 +7,30 @@
 form {
   margin: 0 auto;
   width: 600px; /*find your value*/
-  text-align: center;
+}
+
+button{
+    text-align: left;
 }
 
 /*Logo*/
 #logo{
 	position:fixed;
-	height: 50%;
-    width: 2px;
 	top:0;
 	left:0;
 }
 
+img{
+    margin-left:10px;
+	height: 40%;
+    width: 200px;
+}
+
 /*Sidebar*/
 .sidenav {
-    margin-top:55px;
+  margin-top:55px;
   height: 100%;
-  width: 250px;
+  width: 251px;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -37,7 +44,7 @@ form {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 25px;
-  color: #818181;
+  color: white;
   display: block;
 }
 
@@ -59,5 +66,6 @@ form {
 
 /*Navbar*/
 nav{
+    background-color: #111;
     margin-left: 250px;
 }
