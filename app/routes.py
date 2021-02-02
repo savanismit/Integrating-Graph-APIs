@@ -92,7 +92,6 @@ class signup(Resource):
             return redirect(url_for('login'))
 
 
-
 # @app.route('/logout')
 # @login_required
 class logout(Resource):
@@ -112,24 +111,145 @@ class createContact(Resource):
         form = PersonalContactForm()
         url = 'https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/contacts'
         headers = {
-                'Authorization': 'Bearer {}'.format(generatetoken()),
-                'Content-Type': 'application/json'
-            }
+            'Authorization': 'Bearer {}'.format(generatetoken()),
+            'Content-Type': 'application/json'
+        }
         body = {
-                "givenName": form.firstname.data,
-                "surname": form.lastname.data,
-                "emailAddresses": [
-                    {
-                        "address": form.email.data
-                    }
-                ],
-                "businessPhones": [
-                    form.mobilenumber.data
-                ]
-            }
-        r = requests.post(url, headers=headers, data=json.dumps(body))
-        print(r.json())
+            "givenName": form.firstname.data,
+            "surname": form.lastname.data,
+            "emailAddresses": [
+                {
+                    "address": form.email.data
+                }
+            ],
+            "businessPhones": [
+                form.mobilenumber.data
+            ]
+        }
+        data = requests.post(url, headers=headers, data=json.dumps(body))
+        print(data.json())
         return make_response(render_template('AddContactSuccess.html'))
+
+
+# List contact
+class listContact(Resource):
+    def get(self):
+        url = 'https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/contacts'
+        headers = {
+            'Authorization': 'Bearer {}'.format(generatetoken()),
+            'Content-Type': 'application/json'
+        }
+        data = requests.get(url, headers=headers)
+        data = data.json()
+        return data
+
+
+# Microsoft teams user activity(get)
+class getUserActivity(Resource):
+    def get(self):
+        url = "https://graph.microsoft.com/v1.0/reports/getTeamsUserActivityUserDetail(period='D7')"
+        headers = {
+            'Authorization': 'Bearer {}'.format(generatetoken()),
+            'Content-Type': 'application/json'
+        }
+        data = requests.get(url, headers=headers)
+        return data.text
+
+
+# Microsoft teams user activity counts(get)
+class getTeamsUserActivityCounts(Resource):
+    def get(self):
+        url = "https://graph.microsoft.com/v1.0/reports/getTeamsUserActivityCounts(period='D7')"
+        headers = {
+            'Authorization': 'Bearer {}'.format(generatetoken()),
+            'Content-Type': 'application/json'
+        }
+        data = requests.get(url, headers=headers)
+        return data.text
+
+
+# Microsoft teams user activity use counts(get user detail by activity type)
+class getTeamsUserActivityUserCounts(Resource):
+    def get(self):
+        url = "https://graph.microsoft.com/v1.0/reports/getTeamsUserActivityUserCounts(period='D7')"
+        headers = {
+            'Authorization': 'Bearer {}'.format(generatetoken()),
+            'Content-Type': 'application/json'
+        }
+        data = requests.get(url, headers=headers)
+        return data.text
+
+
+# Outlook email user activity
+class getEmailActivityUserDetail(Resource):
+    def get(self):
+        url = "https://graph.microsoft.com/v1.0/reports/getEmailActivityUserDetail(period='D7')"
+        headers = {
+            'Authorization': 'Bearer {}'.format(generatetoken()),
+            'Content-Type': 'application/json'
+        }
+        data = requests.get(url, headers=headers)
+        return data.text
+
+
+# Outlook email activity count
+class getEmailActivityCounts(Resource):
+    def get(self):
+        url = "https://graph.microsoft.com/v1.0/reports/getEmailActivityCounts(period='D7')"
+        headers = {
+            'Authorization': 'Bearer {}'.format(generatetoken()),
+            'Content-Type': 'application/json'
+        }
+        data = requests.get(url, headers=headers)
+        return data.text
+
+
+# Outlook email user activity count
+class getEmailActivityUserCounts(Resource):
+    def get(self):
+        url = "https://graph.microsoft.com/v1.0/reports/getEmailActivityUserCounts(period='D7')"
+        headers = {
+            'Authorization': 'Bearer {}'.format(generatetoken()),
+            'Content-Type': 'application/json'
+        }
+        data = requests.get(url, headers=headers)
+        return data.text
+
+
+# Onedrive user activity
+class getOneDriveActivityUserDetail(Resource):
+    def get(self):
+        url = "https://graph.microsoft.com/v1.0/reports/getOneDriveActivityUserDetail(period='D7')"
+        headers = {
+            'Authorization': 'Bearer {}'.format(generatetoken()),
+            'Content-Type': 'application/json'
+        }
+        data = requests.get(url, headers=headers)
+        return data.text
+
+
+# Onedrive user activity count
+class getOneDriveActivityUserCounts(Resource):
+    def get(self):
+        url = "https://graph.microsoft.com/v1.0/reports/getOneDriveActivityUserCounts(period='D7')"
+        headers = {
+            'Authorization': 'Bearer {}'.format(generatetoken()),
+            'Content-Type': 'application/json'
+        }
+        data = requests.get(url, headers=headers)
+        return data.text
+
+
+# Onedrive activity file counts(Get the number of unique, licensed users that performed file interactions against any OneDrive account)
+class getOneDriveActivityFileCounts(Resource):
+    def get(self):
+        url = "https://graph.microsoft.com/v1.0/reports/getOneDriveActivityFileCounts(period='D7')"
+        headers = {
+            'Authorization': 'Bearer {}'.format(generatetoken()),
+            'Content-Type': 'application/json'
+        }
+        data = requests.get(url, headers=headers)
+        return data.text
 
 
 api.add_resource(index, '/')
@@ -137,3 +257,13 @@ api.add_resource(login, '/login/')
 api.add_resource(signup, '/signup')
 api.add_resource(logout, '/logout')
 api.add_resource(createContact, '/createContact')
+api.add_resource(listContact, '/listContact')
+api.add_resource(getUserActivity, '/getUserActivity')
+api.add_resource(getTeamsUserActivityCounts, '/getTeamsUserActivityCounts')
+api.add_resource(getTeamsUserActivityUserCounts, '/getTeamsUserActivityUserCounts')
+api.add_resource(getEmailActivityUserDetail, '/getEmailActivityUserDetail')
+api.add_resource(getEmailActivityCounts, '/getEmailActivityCounts')
+api.add_resource(getEmailActivityUserCounts, '/getEmailActivityUserCounts')
+api.add_resource(getOneDriveActivityUserDetail,'/getOneDriveActivityUserDetail')
+api.add_resource(getOneDriveActivityUserCounts,'/getOneDriveActivityUserCounts')
+api.add_resource(getOneDriveActivityFileCounts,'/getOneDriveActivityFileCounts')
