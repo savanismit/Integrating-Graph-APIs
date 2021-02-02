@@ -1,24 +1,21 @@
-import logging
-
-import requests
-
-from app import app
-from app import db
-from flask import request, session, redirect, render_template, url_for, flash, make_response
+import logging, requests, json
+from app import app, db
+from flask import session, redirect, render_template, url_for, flash, make_response
 from .models import User
 from .forms import LoginForm, SignupForm, PersonalContactForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_restful import Resource, Api
 from msal import ConfidentialClientApplication
-import json
 
 api = Api(app)
-
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 def generatetoken():
     with open('app/credential.json') as f:
@@ -40,20 +37,13 @@ def generatetoken():
     token = result['access_token']
     return token
 
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-
 # @app.route('/index')
 class index(Resource):
     def __init__(self):
         pass
 
     def get(self):
-        return make_response(render_template('dashboard.html'))
-
+        return make_response(render_template('index.html'))
 
 # @app.route('/login', methods=['GET','POST'])
 class login(Resource):
@@ -70,7 +60,6 @@ class login(Resource):
                     login_user(user)
                     return make_response(render_template('dashboard.html', form=form))
             flash('Invalid Username or Password', 'danger')
-
 
 # @app.route('/signup', methods=['GET','POST'])
 class signup(Resource):
@@ -91,7 +80,6 @@ class signup(Resource):
             db.session.commit()
             return redirect(url_for('login'))
 
-
 # @app.route('/logout')
 # @login_required
 class logout(Resource):
@@ -99,7 +87,6 @@ class logout(Resource):
         session.clear()
         logout_user()
         return redirect(url_for('index'))
-
 
 # create contact
 class createContact(Resource):
@@ -109,27 +96,27 @@ class createContact(Resource):
 
     def post(self):
         form = PersonalContactForm()
-        url = 'https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/contacts'
-        headers = {
-            'Authorization': 'Bearer {}'.format(generatetoken()),
-            'Content-Type': 'application/json'
-        }
-        body = {
-            "givenName": form.firstname.data,
-            "surname": form.lastname.data,
-            "emailAddresses": [
-                {
-                    "address": form.email.data
+        if form.validate_on_submit():
+            url = 'https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/contacts'
+            headers = {
+                    'Authorization': 'Bearer {}'.format(generatetoken()),
+                    'Content-Type': 'application/json'
                 }
-            ],
-            "businessPhones": [
-                form.mobilenumber.data
-            ]
-        }
-        data = requests.post(url, headers=headers, data=json.dumps(body))
-        print(data.json())
-        return make_response(render_template('AddContactSuccess.html'))
-
+            body = {
+                    "givenName": form.firstname.data,
+                    "surname": form.lastname.data,
+                    "emailAddresses": [
+                        {
+                            "address": form.email.data
+                        }
+                    ],
+                    "businessPhones": [
+                        form.mobilenumber.data
+                    ]
+                }
+            r = requests.post(url, headers=headers, data=json.dumps(body))
+            print(r.json())
+            return make_response(render_template('AddContactSuccess.html'))
 
 # List contact
 class listContact(Resource):
@@ -142,7 +129,6 @@ class listContact(Resource):
         data = requests.get(url, headers=headers)
         data = data.json()
         return data
-
 
 # Microsoft teams user activity(get)
 class getUserActivity(Resource):

@@ -23,7 +23,7 @@ form {
 .sidenav {
     margin-top:55px;
   height: 100%;
-  width: 200px;
+  width: 250px;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -47,7 +47,7 @@ form {
 
 /*Main Content*/
 .main {
-  margin-left: 200px; /* Same as the width of the sidenav */
+  margin-left: 250px; /* Same as the width of the sidenav */
   font-size: 28px; /* Increased text to enable scrolling */
   padding: 50px 10px;
 }
@@ -59,5 +59,5 @@ form {
 
 /*Navbar*/
 nav{
-    margin-left: 200px;
+    margin-left: 250px;
 }

@@ -10,30 +10,8 @@
 </head>
 <body>
 {% block navbar %}
-    <div id="logo">
-        <img src="{{url_for('static', filename='')}}" />
-    </div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Dashboard</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Aboutus <span class="sr-only">(current)</span></a>
-          </li>
-            <li class="nav-item active">
-            <a class="nav-link" href="#">Logout <span class="sr-only">(current)</span></a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-{% endblock %}
 
+{% endblock %}
     {% block content %}
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -48,10 +26,10 @@
     {% block sidebar %}
         <div class="sidenav">
             <div class="text">
-              <a href="#about">Contacts</a>
-              <a href="#services">Report</a>
-              <a href="#clients">Mail</a>
-              <a href="#contact">Calendar</a>
+              <a href="personal_contact.html">Contacts</a>
+              <a href="#">Report</a>
+              <a href="#">Mail</a>
+              <a href="#">Calendar</a>
             </div>
         </div>
     {% endblock %}
