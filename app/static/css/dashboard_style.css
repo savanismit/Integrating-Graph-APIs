@@ -1,4 +1,4 @@
-/*showContact*/
+/showContact/
 th:tr{
         color: blue;
     }
@@ -16,7 +16,7 @@ th:tr{
     margin: auto;
     margin-top:40px;
 }
-/*Form*/
+/Form/
 .center {
   margin: 0 auto;
   width: 100%;
@@ -24,14 +24,14 @@ th:tr{
 
 form {
   margin: 0 auto;
-  width: 600px; /*find your value*/
+  width: 600px; /find your value/
 }
 
 button{
     text-align: left;
 }
 
-/*Logo*/
+/Logo/
 #logo{
 	position:fixed;
 	top:0;
@@ -44,7 +44,7 @@ img{
     width: 200px;
 }
 
-/*Sidebar*/
+/Sidebar/
 .sidenav {
   margin-top:55px;
   height: 100%;
@@ -70,7 +70,7 @@ img{
   color: #f1f1f1;
 }
 
-/*Main Content*/
+/Main Content/
 .main {
   margin-left: 250px; /* Same as the width of the sidenav */
   font-size: 28px; /* Increased text to enable scrolling */
@@ -82,7 +82,7 @@ img{
   .sidenav a {font-size: 18px;}
 }
 
-/*Navbar*/
+/Navbar/
 nav {
     background-color: #111;
     margin-left: 250px;

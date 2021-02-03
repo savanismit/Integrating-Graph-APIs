@@ -18,7 +18,7 @@ class SignupForm(FlaskForm):
 
 
 class PersonalContactForm(FlaskForm):
-    firstname = StringField('firstname')
-    lastname = StringField('lastname')
-    email = StringField('email')
-    mobilenumber = StringField('mobilenumber')
+    contact_firstname = StringField('firstname')
+    contact_lastname = StringField('lastname')
+    contact_email = StringField('email')
+    contact_mobilenumber = StringField('mobilenumber')

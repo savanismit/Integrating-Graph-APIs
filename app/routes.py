@@ -51,13 +51,19 @@ class login(Resource):
 
     def post(self):
         form = LoginForm()
+        contact_form = PersonalContactForm()
         if form.validate_on_submit():
             user = User.query.filter_by(username=form.username.data).first()
             if user:
                 if check_password_hash(user.password, form.password.data):
                     login_user(user)
-                    return make_response(render_template('dashboard.html', form=form))
-            flash('Invalid Username or Password', 'danger')
+                    return make_response(render_template('dashboard.html', form=contact_form))
+        with open("app/json_files/error_messages.json") as f:
+            errors = json.load(f)
+        errors["error_message"] = 'Invalid Username or Password!'
+        return make_response(render_template('login.html', form=form, errors=errors["error_message"]))
+
+
 
 # @app.route('/signup', methods=['GET','POST'])
 class signup(Resource):
@@ -69,14 +75,16 @@ class signup(Resource):
         form = SignupForm()
         if form.validate_on_submit():
             if form.password.data != form.confirmpassword.data:
-                flash('Passwords do not match! Try again.', 'danger')
-                return make_response(render_template('signup.html', form=form))
+                with open("app/json_files/error_messages.json") as f:
+                    errors = json.load(f)
+                errors["error_message"] = 'Passwords do not match! Try again.'
+                return make_response(render_template('signup.html', form=form, errors=errors["error_message"]))
             hashed_password = generate_password_hash(form.password.data, method='sha256')
-            new_user = User(firstname=form.firstname.data, lastname=form.lastname.data, username=form.username.data,
-                            email=form.email.data, password=hashed_password, confirmpassword=hashed_password)
+            new_user = User(firstname=form.firstname.data, lastname=form.lastname.data, username=form.username.data,email=form.email.data, password=hashed_password, confirmpassword=hashed_password)
             db.session.add(new_user)
             db.session.commit()
             return redirect(url_for('login'))
+        return make_response(render_template('signup.html', form=form))
 
 # @app.route('/logout')
 # @login_required
@@ -235,42 +243,8 @@ class getOneDriveActivityFileCounts(Resource):
         data = requests.get(url, headers=headers)
         return data.text
 
-#Send mail
-class sendMail(Resource):
-    def get(self):
-        url = "https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/sendMail"
-        headers = {
-            'Authorization': 'Bearer {}'.format(generatetoken()),
-            'Content-Type': 'application/json'
-        }
-        body = {
-                  "message": {
-                    "subject": "Up for the Lunch!!",
-                    "body": {
-                      "contentType": "Text",
-                      "content": "Hey How are you??"
-                    },
-                    "toRecipients": [
-                      {
-                        "emailAddress": {
-                          "address": "pradipghevariya41@gmail.com"
-                        }
-                      }
-                    ],
-                    "ccRecipients": [
-                      {
-                        "emailAddress": {
-                          "address": "smitsavani11@gmail.com"
-                        }
-                      }
-                    ]
-                  },
-                  "saveToSentItems": "false"
-                }
-        r = requests.post(url, headers=headers, data=json.dumps(body))
-
 api.add_resource(index, '/')
-api.add_resource(login, '/login/')
+api.add_resource(login, '/login')
 api.add_resource(signup, '/signup')
 api.add_resource(logout, '/logout')
 api.add_resource(createContact, '/createContact')
@@ -284,4 +258,3 @@ api.add_resource(getEmailActivityUserCounts, '/getEmailActivityUserCounts')
 api.add_resource(getOneDriveActivityUserDetail,'/getOneDriveActivityUserDetail')
 api.add_resource(getOneDriveActivityUserCounts,'/getOneDriveActivityUserCounts')
 api.add_resource(getOneDriveActivityFileCounts,'/getOneDriveActivityFileCounts')
-api.add_resource(sendMail, '/sendMail')

@@ -2,64 +2,46 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block head %}
-    <title>{% block title %}{% endblock %}Login</title>
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
-	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
-	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{% endblock %}Login</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
+<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/a81368914c.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 {% endblock %}
 
 {% block sub_body %}
-    <img class="wave" src="../static/img/wave.png">
-	<div class="container">
-		<div class="img">
-			<img src="../static/img/bg.svg">
-		</div>
-		<div class="login-content">
-			<form method = "POST", action="/login">
-				{{ form.hidden_tag() }}
-				<img src="../static/img/avatar.svg">
-				<h2 class="title">Welcome</h2>
-           		<div class="input-div one">
-           		   <div class="i">
-           		   		<i class="fas fa-user"></i>
-           		   </div>
-           		   <div class="div">
-           		   		<h5>Username</h5>
-           		   		{% if form.username.errors %}
-							{{ form.username(class="is-invalid") }}
-							<div class="invalid-feedback">
-								{% for error in form.username.errors %}
-									<span>{{ error }}</span>
-								{% endfor %}
-							</div>
-							{% else %}
-								{{ form.username }}
-						{% endif %}
-           		   </div>
-           		</div>
-           		<div class="input-div one">
-           		   <div class="i">
-           		    	<i class="fas fa-lock"></i>
-           		   </div>
-           		   <div class="div">
-           		    	<h5>Password</h5>
-           		    	{% if form.password.errors %}
-							{{ form.password(class="is-invalid") }}
-							<div class="invalid-feedback">
-								{% for error in form.password.errors %}
-									<span>{{ error }}</span>
-								{% endfor %}
-							</div>
-							{% else %}
-								{{ form.password }}
-						{% endif %}
-            	   </div>
-            	</div>
-            	<input type="submit" class="btn" value="Login">
-            	<a href="/signup">Don't have an account? Signup</a>
-			</form>
-        </div>
+<img class="wave" src="../static/img/wave.png">
+<div class="container">
+    <div class="img">
+        <img src="../static/img/bg.svg">
     </div>
-    <script type="text/javascript" src="{{ url_for('static',filename='js/main.js') }}"></script>
+    <div class="login-content">
+        <form method="POST" , action="/login">
+            {{ form.hidden_tag() }}
+            <img src="../static/img/avatar.svg">
+            <h2 class="title">Welcome</h2>
+            <div class="input-div one">
+                <div class="i">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="div">
+                    {{ form.username(class="is-invalid",placeholder="Username") }}
+                </div>
+            </div>
+            <div class="input-div one">
+                <div class="i">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="div">
+                    {{ form.password(class="is-invalid",placeholder="Password") }}
+                </div>
+            </div>
+            {% if errors %}
+            <p style="color:red;">{{errors}}</p>
+            {% endif %}
+            <input type="submit" class="btn" value="Login">
+            <a href="/signup">Don't have an account? Signup</a>
+        </form>
+    </div>
+</div>
 {% endblock %}

@@ -3,6 +3,7 @@
 <head>
     {% block head %}
     <title>{% block title %}{% endblock %}MyWebsite</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     {% endblock %}
 </head>
 <body>
@@ -11,15 +12,6 @@
     {% endblock %}
 
     {% block content %}
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            <ul>
-                {% for category, message in messages %}
-                    <strong><div class="alert alert-{{ category }}">{{message}}</div></strong>
-                {% endfor %}
-            </ul>
-            {% endif %}
-        {% endwith %}
 
         {% block sub_body %}
 
@@ -29,4 +21,6 @@
 
         {% endblock  %}
     {% endblock  %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </body>
