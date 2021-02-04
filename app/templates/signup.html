@@ -1,30 +1,28 @@
-{% extends 'layout.html' %}
-{% import "bootstrap/wtf.html" as wtf %}
-
-{% block head %}
-    <title>{% block title %}{% endblock %}Signup</title>
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-{% endblock %}
-
-{% block sub_body %}
+</head>
+<body>
 <img class="wave" src="../static/img/wave.png">
 	<div class="container">
 		<div class="img">
 			<img src="../static/img/bg.svg">
 		</div>
 		<div class="login-content">
-			<form method = "POST", action="/signup">
-                {{ form.hidden_tag() }}
+			<form method = "POST" action="/signup">
 				<h2 class="title">SignUp</h2>
            		<div class="input-div one">
            		   <div class="i">
            		   		<i class="fas fa-user"></i>
            		   </div>
            		   <div class="div">
-           		   		{{ form.firstname(placeholder="Firstname") }}
+                          <h5>Firstname</h5>
+                          <input class="input" type="text" name="firstname" required>
            		   </div>
            		</div>
 				<div class="input-div one">
@@ -32,7 +30,8 @@
            		   		<i class="fas fa-user"></i>
            		   </div>
            		   <div class="div">
-           		   		{{ form.lastname(placeholder="Laststname") }}
+                        <h5>Lastname</h5>
+                        <input class="input" type="text" name="lastname"required>
            		   </div>
            		</div>
 				<div class="input-div one">
@@ -40,16 +39,8 @@
            		   		<i class="fas fa-user"></i>
            		   </div>
            		   <div class="div">
-           		   		{% if form.username.errors %}
-							{{ form.username(class="is-invalid",placeholder="Username") }}
-							<div class="invalid-feedback">
-								{% for error in form.username.errors %}
-									<span>{{ error }}</span>
-								{% endfor %}
-							</div>
-							{% else %}
-								{{ form.username(placeholder="Username") }}
-						{% endif %}
+                        <h5>Username</h5>
+                        <input class="input" type="text" name="username"required>
            		   </div>
            		</div>
 				<div class="input-div one">
@@ -57,16 +48,8 @@
            		   		<i class="fas fa-user"></i>
            		   </div>
            		   <div class="div">
-           		   		{% if form.email.errors %}
-							{{ form.email(class="is-invalid", placeholder="Email") }}
-							<div class="invalid-feedback">
-								{% for error in form.email.errors %}
-									<span>{{ error }}</span>
-								{% endfor %}
-							</div>
-							{% else %}
-								{{ form.email(placeholder="Email") }}
-						{% endif %}
+                        <h5>Email</h5>
+                        <input class="input" type="email" name="email" title="Please enter a valid Email!" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
            		   </div>
            		</div>
            		<div class="input-div one">
@@ -74,33 +57,17 @@
            		    	<i class="fas fa-lock"></i>
            		   </div>
            		   <div class="div">
-					   	{% if form.password.errors %}
-							{{ form.password(class="is-invalid",placeholder="Password") }}
-							<div class="invalid-feedback">
-								{% for error in form.password.errors %}
-									<span>{{ error }}</span>
-								{% endfor %}
-							</div>
-							{% else %}
-								{{ form.password(placeholder="Password") }}
-						{% endif %}
-            	   </div>
+                        <h5>Password</h5>
+                        <input class="input" type="password" name="password" title="Password must be minimum 8 characters and maximum 8 character including 1 uppercase letter, 1 lowercase letter , numeric characters and symbols" pattern="^(?=.[a-z]).{8,12}$" required>
+                    </div>
             	</div>
 				<div class="input-div one">
            		   <div class="i">
            		   		<i class="fas fa-lock"></i>
            		   </div>
            		   <div class="div">
-					     {% if form.confirmpassword.errors %}
-							{{ form.confirmpassword(class="is-invalid", placeholder="Confirm Password") }}
-							<div class="invalid-feedback">
-								{% for error in form.confirmpassword.errors %}
-									<span>{{ error }}</span>
-								{% endfor %}
-							</div>
-							{% else %}
-								{{ form.confirmpassword(placeholder="Confirm Password") }}
-						 {% endif %}
+                        <h5>Confirmpassword</h5>
+                        <input class="input" type="password" name="confirmpassword" title="Password must be minimum 8 characters and maximum 8 character including 1 uppercase letter, 1 lowercase letter , numeric characters and symbols" pattern="^(?=.[a-z]).{8,12}$" required>
            		   </div>
            		</div>
 				{% if errors %}
@@ -111,4 +78,6 @@
             </form>
         </div>
     </div>
-{% endblock %}
+<script type="text/javascript" src="../static/js/main.js"></script>
+</body>
+</html>

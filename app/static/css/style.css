@@ -44,7 +44,7 @@ body{
 }
 
 form{
-	width: 400px;
+	width: 360px;
 }
 
 .login-content img{
@@ -52,18 +52,18 @@ form{
 }
 
 .login-content h2{
-	margin: 10px 0;
+	margin: 15px 0;
 	color: #333;
 	text-transform: uppercase;
-	font-size: 2 rem;
+	font-size: 2.9rem;
 }
 
 .login-content .input-div{
 	position: relative;
     display: grid;
     grid-template-columns: 7% 93%;
-    margin: 40px 0;
-    padding: 0px 0 0 0;
+    margin: 25px 0;
+    padding: 5px 0;
     border-bottom: 2px solid #d9d9d9;
 }
 
@@ -84,7 +84,17 @@ form{
 
 .input-div > div{
     position: relative;
-	height: 25px;
+	height: 45px;
+}
+
+.input-div > div > h5{
+	position: absolute;
+	left: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	color: #999;
+	font-size: 18px;
+	transition: .3s;
 }
 
 .input-div:before, .input-div:after{
@@ -109,6 +119,11 @@ form{
 	width: 50%;
 }
 
+.input-div.focus > div > h5{
+	top: -5px;
+	font-size: 15px;
+}
+
 .input-div.focus > .i > i{
 	color: #38d39f;
 }
@@ -123,9 +138,13 @@ form{
 	outline: none;
 	background: none;
 	padding: 0.5rem 0.7rem;
-	font-size: 1 rem;
+	font-size: 1.2rem;
 	color: #555;
 	font-family: 'poppins', sans-serif;
+}
+
+.input-div.pass{
+	margin-bottom: 4px;
 }
 
 a{
@@ -133,17 +152,12 @@ a{
 	text-align: right;
 	text-decoration: none;
 	color: #999;
-	font-size: 0.8rem;
+	font-size: 0.9rem;
 	transition: .3s;
 }
 
 a:hover{
 	color: #38d39f;
-}
-
-.error {
-    font-size:15px;
-    font-family: 'poppins', sans-serif;
 }
 
 .btn{

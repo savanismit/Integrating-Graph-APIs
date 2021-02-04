@@ -6,14 +6,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Simple Sidebar - Start Bootstrap Template</title>
-    <script src="https://kit.fontawesome.com/yourcode.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="../static/css/dashboard_style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
 </head>
 
 <body>
@@ -82,11 +79,38 @@
         </nav>
 
         <div class="container-fluid">
-            <h1 class="mt-4">Welcome To The Website</h1>
-            <p>Choose the option from sidebar for the tasks you want to perform.</p>
-        </div>
+            <div class="container center_div">
+
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">No.</th>
+                        <th scope="col">Firstname</th>
+                        <th scope="col">Surname</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Mobile No.</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% set count = namespace(value=1) %}
+                    {%for i in data["value"]%}
+                    <tr>
+                        <th scope="row">{{ count.value }}</th>
+                        <td>{{i["givenName"]}}</td>
+                        <td>{{i["surname"]}}</td>
+                        <td>{{i["emailAddresses"][0]["address"]}}</td>
+                        <td>{{i["businessPhones"][0]}}</td>
+                        {% set count.value = count.value + 1 %}
+                    {%endfor%}
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div><!-- /.container -->
     </div>
-    <!-- /#page-content-wrapper -->
+</div>
+<!-- /#page-content-wrapper -->
 </div>
 <!-- /#wrapper -->
 <!-- Bootstrap core JavaScript -->
@@ -98,6 +122,7 @@
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
+
 
 
 
