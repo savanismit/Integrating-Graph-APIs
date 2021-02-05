@@ -1,14 +1,18 @@
 {
-  "contactBody":  {
-                    "givenName": "your name",
-                    "surname": "your surname",
-                    "emailAddresses": [
-                        {
-                            "address": "your email address"
-                        }
-                    ],
-                    "businessPhones": [
-                        "your phone number"
-                    ]
-                }
+  "contactBody": {
+    "givenName": "your name",
+    "surname": "your surname",
+    "emailAddresses": [
+      {
+        "address": "your email address"
+      }
+    ],
+    "companyName": "string",
+    "businessHomePage": "string",
+    "department": "string",
+    "officeLocation": "string",
+    "businessPhones": [
+      "your phone number"
+    ]
+  }
 }

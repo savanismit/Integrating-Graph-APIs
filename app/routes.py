@@ -59,8 +59,8 @@ class index(Resource):
         pass
 
     def get(self):
-        return redirect(url_for('login'))
-        #return make_response(render_template('index.html'))
+        #return redirect(url_for('login'))
+        return make_response(render_template('report.html'))
 
 class login(Resource):
     def get(self):
@@ -143,8 +143,13 @@ class createContact(Resource):
         body["contactBody"]["givenName"] = request.form["firstname"]
         body["contactBody"]["surname"] = request.form["lastname"]
         body["contactBody"]["emailAddresses"][0]["address"] = request.form["email"]
+        body["contactBody"]["companyName"] = request.form["companyname"]
+        body["contactBody"]["businessHomePage"] = request.form["businesshomepage"]
+        body["contactBody"]["department"] = request.form["department"]
+        body["contactBody"]["officeLocation"] = request.form["officeLocation"]
         body["contactBody"]["businessPhones"][0] = request.form["mobilenumber"]
         body = body["contactBody"]
+        print(body)
 
         r = requests.post(url, headers=headers, data=json.dumps(body))
         # print(r.json())

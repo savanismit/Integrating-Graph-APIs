@@ -1,0 +1,102 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}Dashboard{% endblock %}</title>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../static/css/dashboard_style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+</head>
+
+<body>
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-dark border-right" id="sidebar-wrapper">
+        <img class="img-responsive logo" src="../static/logo.png" alt="">
+
+        <div class="list-group list-group-flush" style="margin-top:30px;">
+
+            <li class="dropdown list-group-item  bg-dark">
+                <a class="h4 dropdown-toggle font-weight-bold" style="color:white;" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user" aria-hidden="true" style="margin-right:2px;"></i> Contacts</a>
+
+                <ul class="dropdown-menu w-100 bg-dark">
+                    <li><a href="/createContact" class="list-group-item  bg-dark"
+                           style="color:white;">Create</a></li>
+                    <li><a href="/listContact" class="list-group-item  bg-dark" style="color:white;">List</a>
+                    </li>
+                    <li><a href="/deleteContact" class="list-group-item  bg-dark"
+                           style="color:white;">Delete</a></li>
+                    <li><a href="/updateContact" class="list-group-item  bg-dark"
+                           style="color:white;">Update</a></li>
+                </ul>
+            </li>
+
+            <li class="dropdown list-group-item  bg-dark">
+                <a class="h4 dropdown-toggle font-weight-bold" style="color:white;" data-toggle="dropdown" href="#">
+                    <i class="fa fa-clipboard" style="margin-right:2px;"></i> Reports</a>
+                <ul class="dropdown-menu w-100 bg-dark">
+                    <li><a href="#" class="list-group-item  bg-dark"
+                           style="color:white;">Create</a></li>
+                    <li><a href="#" class="list-group-item  bg-dark" style="color:white;">List</a>
+                    </li>
+                    <li><a href="#" class="list-group-item  bg-dark"
+                           style="color:white;">Delete</a></li>
+                </ul>
+            </li>
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-expand-lg py-3 navbar-dark bg-dark border-bottom" style="width:101%;margin-left:-3px">
+            <button class="btn btn-success" id="menu-toggle">Menu</button>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="" style="color:white;">Home <span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="" style="color:white;">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout" style="color:white;">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i> logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            {% block content %}
+            {% endblock %}
+
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+</div>
+<!-- /#wrapper -->
+<!-- Bootstrap core JavaScript -->
+<script src="../static/vendor/jquery/jquery.min.js"></script>
+<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Menu Toggle Script -->
+<script type="text/javascript" src="../static/js/dashboard.js"></script>
+</body>
+</html>

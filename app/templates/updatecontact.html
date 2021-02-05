@@ -1,178 +1,123 @@
-<html lang="en">
+{% extends 'dashboard_layout.html' %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+{% block title %}
+Update Contact
+{% endblock %}
 
-    <!-- Bootstrap core CSS -->
-    <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="../static/css/dashboard_style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-</head>
+{% block content %}
+<div class="container-fluid">
+    <div class="container center_div">
 
-<body>
+        <form class="well form-horizontal" action="/updateContact" method="post" id="contact_form">
+            <fieldset>
+                <!-- Form Name -->
+                <legend>
+                    <center><h2><b>Update Personal Contact</b></h2></center>
+                </legend>
+                <br>
 
-<div class="d-flex" id="wrapper">
-    <!-- Sidebar -->
-    <div class="bg-dark border-right" id="sidebar-wrapper">
-        <img class="img-responsive logo" src="../static/logo.png" alt="">
-        <div class="sidebar-heading" style="color:white;"></div>
-        <div class="list-group list-group-flush">
+                <!-- Text input-->
 
-            <li class="dropdown list-group-item  bg-dark">
-                <a class="dropdown-toggle" style="color:white;" data-toggle="dropdown" href="#">Contacts</a>
-                <ul class="dropdown-menu w-100 bg-dark">
-                    <li><a href="/createContact" class="list-group-item  bg-dark"
-                           style="color:white;">Create</a></li>
-                    <li><a href="/listContact" class="list-group-item  bg-dark" style="color:white;">List</a>
-                    </li>
-                    <li><a href="/deleteContact" class="list-group-item  bg-dark"
-                           style="color:white;">Delete</a></li>
-                    <li><a href="/updateContact" class="list-group-item  bg-dark"
-                           style="color:white;">Update</a></li>
-                </ul>
-            </li>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">First Name</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input name="firstname" placeholder="First Name" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
 
-            <li class="dropdown list-group-item  bg-dark">
-                <a class="dropdown-toggle" style="color:white;" data-toggle="dropdown" href="#">Reports</a>
-                <ul class="dropdown-menu w-100 bg-dark">
-                    <li><a href="#" class="list-group-item  bg-dark"
-                           style="color:white;">Create</a></li>
-                    <li><a href="#" class="list-group-item  bg-dark" style="color:white;">List</a>
-                    </li>
-                    <li><a href="#" class="list-group-item  bg-dark"
-                           style="color:white;">Delete</a></li>
-                </ul>
-            </li>
-        </div>
+                <!-- Text input-->
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Last Name</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input name="lastname" placeholder="Last Name" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Current E-Mail</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input name="oldemail" placeholder="E-Mail Address" class="form-control"
+                                   type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label">New E-Mail</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input name="newemail" placeholder="E-Mail Address" class="form-control"
+                                   type="text">
+                        </div>
+                    </div>
+                </div>
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Company Name</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input name="companyname" placeholder="Company Name" class="form-control"
+                                   type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Department</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input name="department" placeholder="Department" class="form-control"
+                                   type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Office Location</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
+                            <input name="officeLocation" placeholder="Office Location" class="form-control"
+                                   type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Contact No.</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                            <input name="mobilenumber" placeholder="(+91)" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <center>
+                    {% if errors %}
+                    <p class="error" style="color:red;">{{errors}}</p>
+                    {% endif %}
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </center>
+
+            </fieldset>
+        </form>
     </div>
-    <!-- /#sidebar-wrapper -->
-
-    <!-- Page Content -->
-    <div id="page-content-wrapper">
-
-        <nav class="navbar navbar-expand-lg py-3 navbar-dark bg-dark border-bottom" style="width:101%;margin-left:-1px">
-            <button class="btn btn-success" id="menu-toggle">Menu</button>
-
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#" style="color:white;">Home <span
-                                class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" style="color:white;">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout" style="color:white;">logout</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <div class="container-fluid">
-            <div class="container center_div">
-
-                <form class="well form-horizontal" action="/updateContact" method="post" id="contact_form">
-                    <fieldset>
-                        <!-- Form Name -->
-                        <legend>
-                            <center><h2><b>Update Personal Contact</b></h2></center>
-                        </legend>
-                        <br>
-
-                        <!-- Text input-->
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">First Name</label>
-                            <div class="col-md-4 inputGroupContainer">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <input name="firstname" placeholder="First Name" class="form-control" type="text">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Text input-->
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Last Name</label>
-                            <div class="col-md-4 inputGroupContainer">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <input name="lastname" placeholder="Last Name" class="form-control" type="text">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Current E-Mail</label>
-                            <div class="col-md-4 inputGroupContainer">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                    <input name="oldemail" placeholder="E-Mail Address" class="form-control"
-                                           type="text">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">New E-Mail</label>
-                            <div class="col-md-4 inputGroupContainer">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                    <input name="newemail" placeholder="E-Mail Address" class="form-control"
-                                           type="text">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Contact No.</label>
-                            <div class="col-md-4 inputGroupContainer">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                    <input name="mobilenumber" placeholder="(+91)" class="form-control" type="text">
-                                </div>
-                            </div>
-                        </div>
-                        <center>
-                            {% if errors %}
-                            <p class="error" style="color:red;">{{errors}}</p>
-                            {% endif %}
-                            <button type="submit" class="btn btn-success">Submit</button>
-                        </center>
-
-                    </fieldset>
-                </form>
-            </div>
-        </div><!-- /.container -->
-    </div>
-</div>
-<!-- /#page-content-wrapper -->
-</div>
-<!-- /#wrapper -->
-<!-- Bootstrap core JavaScript -->
-<script src="../static/vendor/jquery/jquery.min.js"></script>
-<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Menu Toggle Script -->
-<script>
-    $("#menu-toggle").click(function(e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
-    });
-
-</script>
-</body>
-</html>
+</div><!-- /.container -->
+{% endblock %}
