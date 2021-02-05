@@ -9,21 +9,50 @@ List Contact
     <div class="container center_div">
 
         <!-- The Modal -->
-        <div id="myModal" class="modal">
+        <div id="myModal" class="myModal modal">
             <!-- Pop-up content -->
             <div class="modal-content">
-                <span class="close">&times;</span>
-                <p>{{data["value"][0]["givenName"]}}</p>
-                <p>{{data["value"][0]["surname"]}}</p>
-                <p>{{data["value"][0]["emailAddresses"][0]["address"]}}</p>
-                <p>{{data["value"][0]["companyName"]}}</p>
-                <p>{{data["value"][0]["businessHomePage"]}}</p>
-                <p>{{data["value"][0]["department"]}}</p>
-                <p>{{data["value"][0]["officeLocation"]}}</p>
-                <p>{{data["value"][0]["businessPhones"][0]}}</p>
+                <span class="close_tag text-right">&times;</span>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th scope="col">Firstname:</th>
+                        <td>{{data["value"][0]["givenName"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Lastname:</th>
+                        <td>{{data["value"][0]["surname"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Email:</th>
+                        <td>{{data["value"][0]["emailAddresses"][0]["address"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Company Name:</th>
+                        <td>{{data["value"][0]["companyName"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Home Page Link:</th>
+                        <td>{{data["value"][0]["businessHomePage"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Department:</th>
+                        <td>{{data["value"][0]["department"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Office Location:</th>
+                        <td>{{data["value"][0]["officeLocation"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Contact No:</th>
+                        <td>{{data["value"][0]["businessPhones"][0]}}</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
 
-        </div><!-- Pop-up content ends!-->
+        </div>
+        <!-- Pop-up content ends!-->
 
         <table class="table">
             <thead class="thead-dark">
@@ -33,7 +62,7 @@ List Contact
                 <th scope="col">Surname</th>
                 <th scope="col">Email</th>
                 <th scope="col">Mobile No.</th>
-                <th scope="col">Preview</th>
+                <th scope="col">View</th>
             </tr>
             </thead>
             <tbody>
@@ -45,7 +74,9 @@ List Contact
                 <td>{{i["surname"]}}</td>
                 <td>{{i["emailAddresses"][0]["address"]}}</td>
                 <td>{{i["businessPhones"][0]}}</td>
-                <td><button id="myBtn" class="btn-success rounded-pill">Preview</button></td>
+                <td>
+                    <button id="myBtn" class="myBtn btn-success rounded-pill">View</button>
+                </td>
                 {% set count.value = count.value + 1 %}
                 {%endfor%}
             </tr>

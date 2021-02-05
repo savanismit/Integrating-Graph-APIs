@@ -94,19 +94,19 @@
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 30%;
 }
 
 /* The Close Button */
-.close {
+.close_tag {
   color: #aaaaaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.close_tag:hover,
+.close_tag:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
