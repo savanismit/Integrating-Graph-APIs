@@ -39,3 +39,8 @@ function show_modal2(ele2){
       }
     }
 }
+
+$(document).ready(function () {
+  $('#dtBasicExample').DataTable();
+  $('.dataTables_length').addClass('bs-select');
+});

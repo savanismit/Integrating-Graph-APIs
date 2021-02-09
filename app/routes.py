@@ -23,17 +23,18 @@ def generatetoken():
         credentials = json.load(f)
 
     appMS = ConfidentialClientApplication(
-        credentials["CLIENT_ID"],
-        authority=credentials["AUTHORITY"],
-        client_credential=credentials["CLIENT_SECRET"]
+        credentials.get('CLIENT_ID', {}),
+        authority=credentials.get('AUTHORITY', {}),
+        client_credential=credentials.get('CLIENT_SECRET', {})
     )
     result = None
-    result = appMS.acquire_token_silent(scopes=list(credentials["SCOPE"]), account=None)
+    scope = credentials.get('SCOPE', {})
+    result = appMS.acquire_token_silent(scopes=list(scope), account=None)
     if not result:
         logging.info("No suitable token exists in cache. Let's get a new one from AAD.")
-        result = appMS.acquire_token_for_client(scopes=credentials["SCOPE"])
+        result = appMS.acquire_token_for_client(scopes=scope)
 
-    token = result['access_token']
+    token = result.get('access_token', {})
     return token
 
 # get user id for contact update
@@ -42,7 +43,7 @@ def getId(email):
         apis = json.load(f)
     with open("app/json_files/headers.json") as f:
         headers = json.load(f)
-    url = apis['create_contact']
+    url = apis.get('create_contact', {})
     token = generatetoken()
     token = 'Bearer {}'.format(token)
     headers["headers"]["createContact"]["Authorization"] = token
@@ -50,7 +51,7 @@ def getId(email):
 
     r = requests.get(url, headers=headers)
     data = r.json()
-    data = data["value"]
+    data = data.get('value', {})
     for i in data:
         if i["emailAddresses"][0]["address"] == email:
             user_id = i["id"]
@@ -115,13 +116,13 @@ class signup(Resource):
             with open("app/json_files/error_messages.json") as f:
                 errors = json.load(f)
             errors["error_message"] = 'User already exist. kindly login!'
-            return make_response(render_template('login.html', errors=errors["error_message"]))
+            return make_response(render_template('login.html', errors=errors.get('error_message', {})))
 
         if password != request.form["confirmpassword"]:
             with open("app/json_files/error_messages.json") as f:
                 errors = json.load(f)
             errors["error_message"] = 'Passwords do not match! Try again.'
-            return make_response(render_template('signup.html', errors=errors["error_message"]))
+            return make_response(render_template('signup.html', errors=errors.get('error_message', {})))
 
         hashed_password = generate_password_hash(password, method='sha256')
         new_user = User(firstname=firstname, lastname=lastname, username=username,
@@ -154,8 +155,8 @@ class createContact(Resource):
             headers = json.load(f)
         with open('app/json_files/body.json') as f:
             body = json.load(f)
-        url = apis['create_contact']
 
+        url = apis.get('create_contact', {})
         token = generatetoken()
         token = 'Bearer {}'.format(token)
         headers["headers"]["createContact"]["Authorization"] = token
@@ -169,11 +170,9 @@ class createContact(Resource):
         body["contactBody"]["department"] = request.form["department"]
         body["contactBody"]["officeLocation"] = request.form["officeLocation"]
         body["contactBody"]["businessPhones"][0] = request.form["mobilenumber"]
-        body = body["contactBody"]
-        print(body)
+        body = body.get('contactBody', {})
 
-        r = requests.post(url, headers=headers, data=json.dumps(body))
-        # print(r.json())
+        requests.post(url, headers=headers, data=json.dumps(body))
         return redirect(url_for('listcontact'))
 
 class listContact(Resource):
@@ -183,7 +182,7 @@ class listContact(Resource):
         with open("app/json_files/headers.json") as f:
             headers = json.load(f)
 
-        url = apis['create_contact']
+        url = apis.get('create_contact', {})
         token = generatetoken()
         token = 'Bearer {}'.format(token)
         headers["headers"]["createContact"]["Authorization"] = token
@@ -213,7 +212,7 @@ class updateContact(Resource):
 
         id = getId(oldemail)
         if id:
-            url = apis["create_contact"]+"/"+id
+            url = apis.get('create_contact', {}) + "/"+id
             token = generatetoken()
             token = 'Bearer {}'.format(token)
             headers["headers"]["createContact"]["Authorization"] = token
@@ -222,7 +221,7 @@ class updateContact(Resource):
             body["contactBody"]["surname"] = lastname
             body["contactBody"]["emailAddresses"][0]["address"] = newemail
             body["contactBody"]["businessPhones"][0] = mobilenumber
-            body = body["contactBody"]
+            body = body.get('contactBody', {})
 
             r = requests.patch(url, headers=headers, data=json.dumps(body))
             return redirect(url_for('listcontact'))
@@ -241,7 +240,7 @@ class deleteContact(Resource):
         email = request.form["email"]
         id = getId(email)
         if id:
-            url = apis["create_contact"] + "/" + id
+            url = apis.get('create_contact', {}) + "/"+id
             token = generatetoken()
             token = 'Bearer {}'.format(token)
             headers["headers"]["createContact"]["Authorization"] = token
@@ -258,7 +257,7 @@ class outlook(Resource):
             headers = json.load(f)
 
         userActivity_file = " userActivity.csv"
-        url = apis["getEmailActivityUserDetail"]
+        url = apis.get('getEmailActivityUserDetail', {})
         token = generatetoken()
         token = 'Bearer {}'.format(token)
         headers["headers"]["getEmailActivityUserDetail"]["Authorization"] = token
@@ -268,7 +267,7 @@ class outlook(Resource):
         data = readCsv(userActivity_file)
 
         userActivityCount_file = " userActivityCount.csv"
-        url = apis["getEmailActivityCounts"]
+        url = apis.get('getEmailActivityCounts', {})
         createCsv(url, headers, userActivityCount_file)
         datacount = readCsv(userActivityCount_file)
 
