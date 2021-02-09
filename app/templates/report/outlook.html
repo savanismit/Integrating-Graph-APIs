@@ -1,0 +1,141 @@
+{% extends 'dashboard_layout.html' %}
+{% block title %}
+Outlook Report
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="container center_div">
+
+        <!-- The Modal 1 -->
+        {% set c = namespace(value=0) %}
+        {%for i in data%}
+        <div id="myModal_{{c.value}}" class="myModal modal">
+            <!-- Pop-up content -->
+            <div class="modal-content">
+                <span id="close_tag_{{c.value}}" class="close_tag text-right">&times;</span>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th scope="col">Refresh Date:</th>
+                        <td>{{i["Report Refresh Date"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Principal Name:</th>
+                        <td> {{i["User Principal Name"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Name:</th>
+                        <td> {{i["Display Name"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Is Deleted:</th>
+                        <td> {{i["Is Deleted"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Deleted Date:</th>
+                        <td> {{i["Deleted Date"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Last Activity Date:</th>
+                        <td> {{i["Last Activity Date"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Send Count:</th>
+                        <td> {{i["Send Count"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Receive Count:</th>
+                        <td> {{i["Receive Count"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Read Count:</th>
+                        <td>  {{i["Read Count"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Assigned Products:</th>
+                        <td> {{i["Assigned Products"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Report Period:</th>
+                        <td>  {{i["Report Period"]}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% set c.value = c.value + 1 %}
+        {%endfor%}
+        <!-- The Modal 1-->
+
+        <!-- The Modal 2 -->
+        {% set c = namespace(value=0) %}
+        {%for i in datacount%}
+        <div id="myModal2_{{c.value}}" class="myModal modal" style="padding-top: 100px;">
+            <!-- Pop-up content -->
+            <div class="modal-content">
+                <span id="close_tag2_{{c.value}}" class="close_tag text-right">&times;</span>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th scope="col">Refresh Date:</th>
+                        <td>{{i["Report Refresh Date"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Send:</th>
+                        <td>  {{i["Send"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Receive:</th>
+                        <td> {{i["Receive"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Read Count:</th>
+                        <td> {{i["Read"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Report Date:</th>
+                        <td>  {{i["Report Date"]}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Report Period:</th>
+                        <td>  {{i["Report Period"]}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% set c.value = c.value + 1 %}
+        {%endfor%}
+        <!-- The Modal 2-->
+
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">No.</th>
+                <th scope="col">Name</th>
+                <th scope="col">Report</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set count = namespace(value=1) %}
+            {%for i in data%}
+            <tr>
+                <th scope="row">{{ count.value }}</th>
+                <td>{{i["Display Name"]}}</td>
+                <td>
+                    <button id="activity_{{count.value}}" class="myBtn btn-success rounded-pill"
+                            onclick="show_modal1(this)">Acivity
+                    </button>
+                    <button id="usercount_{{count.value}}" class="myBtn btn-success rounded-pill"
+                            onclick="show_modal2(this)">User Count
+                    </button>
+                </td>
+            </tr>
+            {% set count.value = count.value + 1 %}
+            {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</div><!-- /.container -->
+{% endblock %}

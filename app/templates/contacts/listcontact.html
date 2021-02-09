@@ -1,5 +1,4 @@
 {% extends 'dashboard_layout.html' %}
-
 {% block title %}
 List Contact
 {% endblock %}
@@ -11,7 +10,7 @@ List Contact
         <!-- The Modal -->
         {% set c = namespace(value=0) %}
         {%for i in data["value"]%}
-        <div id="myModal_{{c.value}}" class="myModal modal">
+        <div id="myModal_{{c.value}}" class="myModal modal" style="padding-top: 100px;">
             <!-- Pop-up content -->
             <div class="modal-content">
                 <span id="close_tag_{{c.value}}" class="close_tag text-right">&times;</span>
@@ -78,7 +77,7 @@ List Contact
                 <td>{{i["emailAddresses"][0]["address"]}}</td>
                 <td>{{i["businessPhones"][0]}}</td>
                 <td>
-                    <button id="myBtn_{{count.value}}" class="myBtn btn-success rounded-pill" onclick="show_modal(this)">View</button>
+                    <button id="myBtn_{{count.value}}" class="myBtn btn-success rounded-pill" onclick="show_modal1(this)">View</button>
                 </td>
                 {% set count.value = count.value + 1 %}
                 {%endfor%}

@@ -4,6 +4,10 @@
 	box-sizing: border-box;
 }
 
+html {
+  overflow-x: initial !important;
+}
+
 body{
     font-family: 'Poppins', sans-serif;
     overflow: hidden;

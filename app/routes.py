@@ -6,6 +6,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_restful import Resource, Api
 from msal import ConfidentialClientApplication
+import os.path
+from csv import DictReader
 
 api = Api(app)
 login_manager = LoginManager()
@@ -54,13 +56,32 @@ def getId(email):
             user_id = i["id"]
             return user_id
 
+#To create & read Report-CSV File
+def createCsv(url,headers,file):
+    r = requests.get(url, headers=headers)
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    path = os.path.join(my_path, file)
+    f = open(path, "w")
+    f.write(r.text)
+
+def readCsv(file):
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    path = os.path.join(my_path, file)
+    list_report = []
+    with open(path) as read_obj:
+        csv_reader = DictReader(read_obj)
+        print(csv_reader)
+        for i in csv_reader:
+            list_report.append(dict(i))
+    return list_report
+
 class index(Resource):
     def __init__(self):
         pass
 
     def get(self):
         #return redirect(url_for('login'))
-        return make_response(render_template('report.html'))
+        return make_response(render_template('dashboard.html'))
 
 class login(Resource):
     def get(self):
@@ -124,7 +145,7 @@ class dashboard(Resource):
 
 class createContact(Resource):
     def get(self):
-        return make_response(render_template('createcontact.html'))
+        return make_response(render_template('contacts/createcontact.html'))
 
     def post(self):
         with open("app/json_files/apis.json") as f:
@@ -170,11 +191,11 @@ class listContact(Resource):
 
         data = requests.get(url, headers=headers)
         data = data.json()
-        return make_response(render_template("listcontact.html", data=data))
+        return make_response(render_template("contacts/listcontact.html", data=data))
 
 class updateContact(Resource):
     def get(self):
-        return make_response(render_template('updatecontact.html'))
+        return make_response(render_template('contacts/updatecontact.html'))
 
     def post(self):
         with open("app/json_files/apis.json") as f:
@@ -205,12 +226,12 @@ class updateContact(Resource):
 
             r = requests.patch(url, headers=headers, data=json.dumps(body))
             return redirect(url_for('listcontact'))
-        return make_response(render_template("updatecontact.html", errors="Email is not available"))
+        return make_response(render_template("contacts/updatecontact.html", errors="Email is not available"))
 
 
 class deleteContact(Resource):
     def get(self):
-        return make_response(render_template('deletecontact.html'))
+        return make_response(render_template('contacts/deletecontact.html'))
 
     def post(self):
         with open("app/json_files/apis.json") as f:
@@ -227,7 +248,31 @@ class deleteContact(Resource):
             headers = headers["headers"]["createContact"]
             r = requests.delete(url, headers=headers)
             return redirect(url_for('listcontact'))
-        return make_response(render_template("deletecontact.html", errors="Email is already deleted"))
+        return make_response(render_template("contacts/deletecontact.html", errors="Email is not available!"))
+
+class outlook(Resource):
+    def get(self):
+        with open("app/json_files/apis.json") as f:
+            apis = json.load(f)
+        with open("app/json_files/headers.json") as f:
+            headers = json.load(f)
+
+        userActivity_file = " userActivity.csv"
+        url = apis["getEmailActivityUserDetail"]
+        token = generatetoken()
+        token = 'Bearer {}'.format(token)
+        headers["headers"]["getEmailActivityUserDetail"]["Authorization"] = token
+        headers = headers["headers"]["getEmailActivityUserDetail"]
+
+        createCsv(url,headers,userActivity_file)
+        data = readCsv(userActivity_file)
+
+        userActivityCount_file = " userActivityCount.csv"
+        url = apis["getEmailActivityCounts"]
+        createCsv(url, headers, userActivityCount_file)
+        datacount = readCsv(userActivityCount_file)
+
+        return make_response(render_template('report/outlook.html', data=data,datacount=datacount))
 
 api.add_resource(index, '/')
 api.add_resource(login, '/login')
@@ -238,3 +283,4 @@ api.add_resource(createContact, '/createContact')
 api.add_resource(listContact, '/listContact')
 api.add_resource(updateContact,'/updateContact')
 api.add_resource(deleteContact,"/deleteContact")
+api.add_resource(outlook,"/outlook")

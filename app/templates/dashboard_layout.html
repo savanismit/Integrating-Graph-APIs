@@ -25,31 +25,47 @@
         <div class="list-group list-group-flush" style="margin-top:30px;">
 
             <li class="dropdown list-group-item  bg-dark">
-                <a class="h4 dropdown-toggle font-weight-bold" style="color:white;" data-toggle="dropdown" href="#">
+                <a class="h4 ml-3 dropdown-toggle font-weight-bold" style="color:white;" data-toggle="dropdown" href="#">
+                    <i class="fa fa-envelope" style="margin-right:2px;"></i> Mail</a>
+                <ul class="dropdown-menu w-100 bg-dark">
+                    <li><a href="#" class="list-group-item  bg-dark"
+                           style="color:white;">Send Mail</a></li>
+                    <li><a href="#" class="list-group-item  bg-dark"
+                           style="color:white;">Display Mails</a>
+                    </li>
+                    <li><a href="#" class="list-group-item  bg-dark"
+                           style="color:white;">Set auto response</a></li>
+                </ul>
+            </li>
+
+            <li class="dropdown list-group-item  bg-dark">
+                <a class="h4 ml-3 dropdown-toggle font-weight-bold" style="color:white;" data-toggle="dropdown" href="#">
+                    <i class="fa fa-clipboard" style="margin-right:2px;"></i> Reports</a>
+                <ul class="dropdown-menu w-100 bg-dark">
+                    <li><a href="/outlook" class="list-group-item  bg-dark"
+                           style="color:white;">Outlook</a></li>
+                    <li><a href="/onedrive" class="list-group-item  bg-dark"
+                           style="color:white;">OneDrive</a>
+                    </li>
+                    <li><a href="/msteams" class="list-group-item  bg-dark"
+                           style="color:white;">Microsoft Teams</a></li>
+                </ul>
+            </li>
+
+            <li class="dropdown list-group-item  bg-dark">
+                <a class="h4 ml-3 dropdown-toggle font-weight-bold" style="color:white;" data-toggle="dropdown" href="#">
                     <i class="fa fa-user" aria-hidden="true" style="margin-right:2px;"></i> Contacts</a>
 
                 <ul class="dropdown-menu w-100 bg-dark">
                     <li><a href="/createContact" class="list-group-item  bg-dark"
                            style="color:white;">Create</a></li>
-                    <li><a href="/listContact" class="list-group-item  bg-dark" style="color:white;">List</a>
+                    <li><a href="/listContact" class="list-group-item  bg-dark"
+                           style="color:white;">List</a>
                     </li>
                     <li><a href="/deleteContact" class="list-group-item  bg-dark"
                            style="color:white;">Delete</a></li>
                     <li><a href="/updateContact" class="list-group-item  bg-dark"
                            style="color:white;">Update</a></li>
-                </ul>
-            </li>
-
-            <li class="dropdown list-group-item  bg-dark">
-                <a class="h4 dropdown-toggle font-weight-bold" style="color:white;" data-toggle="dropdown" href="#">
-                    <i class="fa fa-clipboard" style="margin-right:2px;"></i> Reports</a>
-                <ul class="dropdown-menu w-100 bg-dark">
-                    <li><a href="#" class="list-group-item  bg-dark"
-                           style="color:white;">Create</a></li>
-                    <li><a href="#" class="list-group-item  bg-dark" style="color:white;">List</a>
-                    </li>
-                    <li><a href="#" class="list-group-item  bg-dark"
-                           style="color:white;">Delete</a></li>
                 </ul>
             </li>
         </div>
@@ -98,5 +114,6 @@
 <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Menu Toggle Script -->
 <script type="text/javascript" src="../static/js/dashboard.js"></script>
+
 </body>
 </html>
