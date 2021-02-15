@@ -65,6 +65,7 @@ List Contact
                 <th scope="col">Email</th>
                 <th scope="col">Mobile No.</th>
                 <th scope="col">View</th>
+                <th scope="col">Update | Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -74,10 +75,16 @@ List Contact
                 <th scope="row">{{ count.value }}</th>
                 <td>{{i["givenName"]}}</td>
                 <td>{{i["surname"]}}</td>
-                <td>{{i["emailAddresses"][0]["address"]}}</td>
+                <td id="email_{{count.value}}">{{i["emailAddresses"][0]["address"]}}</td>
                 <td>{{i["businessPhones"][0]}}</td>
                 <td>
-                    <button id="myBtn_{{count.value}}" class="myBtn btn-success rounded-pill" onclick="show_modal1(this)">View</button>
+                    <button id="myBtn_{{count.value}}" class="myBtn btn-success " onclick="show_modal1(this)">View</button>
+                </td>
+                <td>
+                    <form action="{{url_for('deletecontact',email = i['emailAddresses'][0]['address'])}}" method="post">
+                        <button class="myBtn btn-primary "><a href='/updateContact' style="color:white">Update</a></button> |
+                        <input type="submit" value="Delete" class="myBtn btn-danger">
+                    </form>
                 </td>
                 {% set count.value = count.value + 1 %}
                 {%endfor%}
@@ -87,5 +94,6 @@ List Contact
 
     </div>
 </div><!-- /.container -->
+
 <script type="text/javascript" src="../static/js/dashboard.js"></script>
 {% endblock %}

@@ -60,6 +60,7 @@ def getId(email):
 #To create & read Report-CSV File
 def createCsv(url,headers,file):
     r = requests.get(url, headers=headers)
+
     my_path = os.path.abspath(os.path.dirname(__file__))
     path = os.path.join(my_path, file)
     f = open(path, "w")
@@ -190,13 +191,21 @@ class listContact(Resource):
 
         data = requests.get(url, headers=headers)
         data = data.json()
+
+        # listdata = data["value"]
+        # sub_url = data["@odata.nextLink"]
+        # while sub_url != "":
+        #     sub_response = request.get(sub_url, headers=headers)
+        #     listdata.extend(sub_response["value"])
+        #     sub_url = sub_response["@odata.nextLink"]
+        # data = listdata.json()
         return make_response(render_template("contacts/listcontact.html", data=data))
 
 class updateContact(Resource):
     def get(self):
         return make_response(render_template('contacts/updatecontact.html'))
 
-    def post(self):
+    def post(self,email):
         with open("app/json_files/apis.json") as f:
             apis = json.load(f)
         with open("app/json_files/headers.json") as f:
@@ -206,7 +215,7 @@ class updateContact(Resource):
 
         firstname = request.form["firstname"]
         lastname = request.form["lastname"]
-        oldemail = request.form["oldemail"]
+        oldemail = email
         newemail = request.form["newemail"]
         mobilenumber = request.form["mobilenumber"]
 
@@ -232,12 +241,13 @@ class deleteContact(Resource):
     def get(self):
         return make_response(render_template('contacts/deletecontact.html'))
 
-    def post(self):
+    def post(self,email):
         with open("app/json_files/apis.json") as f:
             apis = json.load(f)
         with open("app/json_files/headers.json") as f:
             headers = json.load(f)
-        email = request.form["email"]
+        print(email)
+        #email = request.form["get_email"]
         id = getId(email)
         if id:
             url = apis.get('create_contact', {}) + "/"+id
@@ -281,5 +291,5 @@ api.add_resource(dashboard, '/dashboard')
 api.add_resource(createContact, '/createContact')
 api.add_resource(listContact, '/listContact')
 api.add_resource(updateContact,'/updateContact')
-api.add_resource(deleteContact,"/deleteContact")
+api.add_resource(deleteContact,"/deleteContact/","/deleteContact/<string:email>")
 api.add_resource(outlook,"/outlook")
