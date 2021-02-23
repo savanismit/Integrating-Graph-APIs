@@ -65,7 +65,8 @@ List Contact
                 <th scope="col">Email</th>
                 <th scope="col">Mobile No.</th>
                 <th scope="col">View</th>
-                <th scope="col">Update | Delete</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -81,8 +82,12 @@ List Contact
                     <button id="myBtn_{{count.value}}" class="myBtn btn-success " onclick="show_modal1(this)">View</button>
                 </td>
                 <td>
+                    <form action="{{url_for('updatecontact',email = i['emailAddresses'][0]['address'])}}">
+                        <input type="submit" value="Update" class="myBtn btn-primary">
+                    </form>
+                </td>
+                <td>
                     <form action="{{url_for('deletecontact',email = i['emailAddresses'][0]['address'])}}" method="post">
-                        <button class="myBtn btn-primary "><a href='/updateContact' style="color:white">Update</a></button> |
                         <input type="submit" value="Delete" class="myBtn btn-danger">
                     </form>
                 </td>

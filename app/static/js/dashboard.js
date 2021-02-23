@@ -40,6 +40,13 @@ function show_modal2(ele2){
     }
 }
 
+//function Update(e){
+//    id = e.id.split("_")[1];
+//    var b = document.getElementById('email_'+id).value;
+//    console.log(b);
+//    document.getElementById('current_email').innerHTML = b;
+//}
+
 $(document).ready(function () {
   $('#dtBasicExample').DataTable();
   $('.dataTables_length').addClass('bs-select');

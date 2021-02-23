@@ -82,8 +82,7 @@ class index(Resource):
         pass
 
     def get(self):
-        #return redirect(url_for('login'))
-        return make_response(render_template('dashboard.html'))
+        return redirect(url_for('login'))
 
 class login(Resource):
     def get(self):
@@ -139,13 +138,15 @@ class logout(Resource):
     def get(self):
         session.clear()
         logout_user()
-        return redirect(url_for('index'))
+        return redirect(url_for('login'))
 
 class dashboard(Resource):
+    @login_required
     def get(self):
         return make_response(render_template('dashboard.html'))
 
 class createContact(Resource):
+    @login_required
     def get(self):
         return make_response(render_template('contacts/createcontact.html'))
 
@@ -177,6 +178,7 @@ class createContact(Resource):
         return redirect(url_for('listcontact'))
 
 class listContact(Resource):
+    @login_required
     def get(self):
         with open("app/json_files/apis.json") as f:
             apis = json.load(f)
@@ -202,22 +204,18 @@ class listContact(Resource):
         return make_response(render_template("contacts/listcontact.html", data=data))
 
 class updateContact(Resource):
-    def get(self):
-        return make_response(render_template('contacts/updatecontact.html'))
+    @login_required
+    def get(self,email):
+        return make_response(render_template('contacts/updatecontact.html',email = email))
 
-    def post(self,email):
+    def post(self):
         with open("app/json_files/apis.json") as f:
             apis = json.load(f)
         with open("app/json_files/headers.json") as f:
             headers = json.load(f)
         with open('app/json_files/body.json') as f:
             body = json.load(f)
-
-        firstname = request.form["firstname"]
-        lastname = request.form["lastname"]
-        oldemail = email
-        newemail = request.form["newemail"]
-        mobilenumber = request.form["mobilenumber"]
+        oldemail = request.form["oldemail"]
 
         id = getId(oldemail)
         if id:
@@ -226,10 +224,14 @@ class updateContact(Resource):
             token = 'Bearer {}'.format(token)
             headers["headers"]["createContact"]["Authorization"] = token
             headers = headers["headers"]["createContact"]
-            body["contactBody"]["givenName"] = firstname
-            body["contactBody"]["surname"] = lastname
-            body["contactBody"]["emailAddresses"][0]["address"] = newemail
-            body["contactBody"]["businessPhones"][0] = mobilenumber
+            body["contactBody"]["givenName"] = request.form["firstname"]
+            body["contactBody"]["surname"] = request.form["lastname"]
+            body["contactBody"]["emailAddresses"][0]["address"] = request.form["newemail"]
+            body["contactBody"]["companyName"] = request.form["companyname"]
+            body["contactBody"]["businessHomePage"] = request.form["businesshomepage"]
+            body["contactBody"]["department"] = request.form["department"]
+            body["contactBody"]["officeLocation"] = request.form["officeLocation"]
+            body["contactBody"]["businessPhones"][0] = request.form["mobilenumber"]
             body = body.get('contactBody', {})
 
             r = requests.patch(url, headers=headers, data=json.dumps(body))
@@ -238,6 +240,7 @@ class updateContact(Resource):
 
 
 class deleteContact(Resource):
+    @login_required
     def get(self):
         return make_response(render_template('contacts/deletecontact.html'))
 
@@ -246,8 +249,6 @@ class deleteContact(Resource):
             apis = json.load(f)
         with open("app/json_files/headers.json") as f:
             headers = json.load(f)
-        print(email)
-        #email = request.form["get_email"]
         id = getId(email)
         if id:
             url = apis.get('create_contact', {}) + "/"+id
@@ -260,6 +261,7 @@ class deleteContact(Resource):
         return make_response(render_template("contacts/deletecontact.html", errors="Email is not available!"))
 
 class outlook(Resource):
+    @login_required
     def get(self):
         with open("app/json_files/apis.json") as f:
             apis = json.load(f)
@@ -276,12 +278,16 @@ class outlook(Resource):
         createCsv(url,headers,userActivity_file)
         data = readCsv(userActivity_file)
 
-        userActivityCount_file = " userActivityCount.csv"
-        url = apis.get('getEmailActivityCounts', {})
+        userActivityCount_file = " userUsageDetail.csv"
+        url = apis.get('getEmailAppUsageUserDetail', {})
         createCsv(url, headers, userActivityCount_file)
         datacount = readCsv(userActivityCount_file)
 
         return make_response(render_template('report/outlook.html', data=data,datacount=datacount))
+
+class reportgraph(Resource):
+    def get(self):
+        return make_response(render_template('report/reportgraph.html'))
 
 api.add_resource(index, '/')
 api.add_resource(login, '/login')
@@ -290,6 +296,7 @@ api.add_resource(logout, '/logout')
 api.add_resource(dashboard, '/dashboard')
 api.add_resource(createContact, '/createContact')
 api.add_resource(listContact, '/listContact')
-api.add_resource(updateContact,'/updateContact')
-api.add_resource(deleteContact,"/deleteContact/","/deleteContact/<string:email>")
+api.add_resource(updateContact,"/updateContact","/updateContact/<string:email>")
+api.add_resource(deleteContact,"/deleteContact","/deleteContact/<string:email>")
 api.add_resource(outlook,"/outlook")
+api.add_resource(reportgraph,"/reportgraph")

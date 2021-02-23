@@ -1,5 +1,5 @@
 {
   "create_contact": "https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/contacts",
   "getEmailActivityUserDetail": "https://graph.microsoft.com/v1.0/reports/getEmailActivityUserDetail(period='D180')",
-  "getEmailActivityCounts": "https://graph.microsoft.com/v1.0/reports/getEmailActivityCounts(period='D180')"
+  "getEmailAppUsageUserDetail": "https://graph.microsoft.com/v1.0/reports/getEmailAppUsageUserDetail(period='D180')"
 }
