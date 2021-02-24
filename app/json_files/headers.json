@@ -4,8 +4,22 @@
       "Authorization": "your token",
       "Content-Type": "application/json"
     },
-    "getEmailActivityUserDetail":{
+    "getEmailActivityUserDetail": {
       "Authorization": "your token"
-}
+    },
+    "getOneDriveActivityUserDetail": {
+      "Authorization": "your token"
+    },
+    "getTeamsUserActivityUserDetail": {
+       "Authorization": "your token"
+    },
+    "AutoForwardEmail": {
+      "Authorization": "your token",
+      "Content-Type": "application/json"
+    },
+    "AutoReplyEmail": {
+      "Authorization": "your token",
+      "Content-Type": "application/json"
+    }
   }
 }

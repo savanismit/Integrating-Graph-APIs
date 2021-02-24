@@ -14,5 +14,45 @@
     "businessPhones": [
       "your phone number"
     ]
+  },
+  "AutoForwardBody": {
+    "displayName": "From collegue",
+    "sequence": "2",
+    "isEnabled": "true",
+    "conditions": {
+      "fromAddresses": [
+        {
+          "emailAddress": {
+            "address": "from email"
+          }
+        }
+      ]
+    },
+    "actions": {
+      "forwardTo": [
+        {
+          "emailAddress": {
+            "address": "to forward email"
+          }
+        }
+      ],
+      "stopProcessingRules": "true"
+    }
+  },
+  "AutoReplyEmailBody": {
+    "@odata.context": "https://graph.microsoft.com/beta/$metadata#Me/mailboxSettings",
+    "automaticRepliesSetting": {
+      "status": "alwaysEnabled",
+      "internalReplyMessage": "Hey I am busy right now!",
+      "externalReplyMessage": "Please contact me after 6:00 PM.",
+      "scheduledStartDateTime": {
+        "dateTime": "2021-02-24T11:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "scheduledEndDateTime": {
+        "dateTime": "2021-02-25T11:00:00.0000000",
+        "timeZone": "UTC"
+      }
+    }
   }
 }

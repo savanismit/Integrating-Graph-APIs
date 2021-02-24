@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'dashboard_layout.html' %}
 
-</body>
-</html>
+{% block title %}
+OneDrive Storage Graph
+{% endblock %}
+
+{% block content %}
+<div id="size" data-size="{{ data }}"></div>
+
+<h3>OneDrive Storage Usage</h3>
+<div id="pie-chart"></div>
+
+<script type="text/javascript" src="../static/js/graph.js"></script>
+{% endblock %}

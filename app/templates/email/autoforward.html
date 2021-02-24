@@ -1,0 +1,58 @@
+{% extends 'dashboard_layout.html' %}
+
+{% block title %}
+Auto Forward Email
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="container center_div">
+        <form class="well form-horizontal" action="/autoforward" method="post" id="auto_forward_form">
+            <fieldset>
+                <!-- Form Name -->
+                <legend>
+                    <center><h2><b>Set Auto Forward</b></h2></center>
+                </legend>
+                <br>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label">E-Mail From</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input name="email_from" placeholder="Forward Mail Of" class="form-control"
+                                   type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label">E-Mail To</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input name="email_to" placeholder="Forward To" class="form-control"
+                                   type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                        </div>
+                    </div>
+                </div>
+
+                <center>
+                    {% if errors %}
+                    <p class="error" style="color:red;">{{errors}}</p>
+                    {% endif %}
+                    {% if data %}
+                    <p class="error" style="color:green;">{{data}}</p>
+                    {% endif %}
+                    <button type="submit" class="btn btn-success">Submit</button>
+
+                </center>
+
+            </fieldset>
+        </form>
+    </div>
+</div><!-- /.container -->
+{% endblock %}
+

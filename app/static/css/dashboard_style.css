@@ -3,6 +3,13 @@
  * Copyright 2013-2020 Start Bootstrap
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-simple-sidebar/blob/master/LICENSE)
  */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+body {
+  font-family: "Open Sans", Arial;
+  background: #EDEDED;
+}
+
  body, html, .container-fluid, .sidebar, .body {
     height: 100%;
     min-height: 100%;
@@ -118,4 +125,25 @@ body{
 
 .well, table{
     margin-top:20px;
+}
+
+
+/*Pie Chart*/
+#pie-chart {
+  width: 500px;
+  height: 250px;
+  position: relative;
+}
+
+#pie-chart::after {
+  content: "";
+  position: absolute;
+  display: block;
+  top: 260px;
+  left: 70px;
+  width: 170px;
+  height: 2px;
+  background: rgba(0,0,0,0.1);
+  border-radius: 50%;
+  box-shadow: 0 0 3px 4px rgba(0,0,0,0.1);
 }

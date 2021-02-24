@@ -1,0 +1,56 @@
+{% extends 'dashboard_layout.html' %}
+
+{% block title %}
+Auto Reply Email
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="container center_div">
+        <form class="well form-horizontal" action="/autoreply" method="post" id="auto_reply_form">
+            <fieldset>
+                <!-- Form Name -->
+                <legend>
+                    <center><h2><b>Set Auto Forward</b></h2></center>
+                </legend>
+                <br>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Reply</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input name="reply1" placeholder="Reply" class="form-control"
+                                   type="text" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Reply2</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input name="reply2" placeholder="Reply" class="form-control"
+                                   type="text" required>
+                        </div>
+                    </div>
+                </div>
+
+                <center>
+                    {% if errors %}
+                    <p class="error" style="color:red;">{{errors}}</p>
+                    {% endif %}
+                    {% if data %}
+                    <p class="error" style="color:green;">{{data}}</p>
+                    {% endif %}
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </center>
+            </fieldset>
+        </form>
+    </div>
+</div><!-- /.container -->
+{% endblock %}
+

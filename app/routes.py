@@ -285,9 +285,103 @@ class outlook(Resource):
 
         return make_response(render_template('report/outlook.html', data=data,datacount=datacount))
 
+class oneDrive(Resource):
+    @login_required
+    def get(self):
+        with open("app/json_files/apis.json") as f:
+            apis = json.load(f)
+        with open("app/json_files/headers.json") as f:
+            headers = json.load(f)
+
+        userActivity_file = " userActivity.csv"
+        url = apis.get('getEmailActivityUserDetail', {})
+        token = generatetoken()
+        token = 'Bearer {}'.format(token)
+        headers["headers"]["getEmailActivityUserDetail"]["Authorization"] = token
+        headers = headers["headers"]["getEmailActivityUserDetail"]
+
+        createCsv(url,headers,userActivity_file)
+        data = readCsv(userActivity_file)
+
+        userActivityCount_file = " userUsageDetail.csv"
+        url = apis.get('getEmailAppUsageUserDetail', {})
+        createCsv(url, headers, userActivityCount_file)
+        datacount = readCsv(userActivityCount_file)
+
+        return make_response(render_template('report/outlook.html', data=data, datacount=datacount))
+
 class reportgraph(Resource):
     def get(self):
-        return make_response(render_template('report/reportgraph.html'))
+        with open("app/json_files/apis.json") as f:
+            apis = json.load(f)
+        with open("app/json_files/headers.json") as f:
+            headers = json.load(f)
+
+        url = "https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/drive/root/children"
+        token = generatetoken()
+        token = 'Bearer {}'.format(token)
+        headers["headers"]["getEmailActivityUserDetail"]["Authorization"] = token
+        headers = headers["headers"]["getEmailActivityUserDetail"]
+
+        data = requests.get(url, headers=headers)
+        data = data.json()
+        size = [["Name","Size"]]
+        for i in data["value"]:
+            size.append([i["name"],(round(i["size"]/(1024**2),2))])
+        print(size)
+        return make_response(render_template('report/reportgraph.html',data=size))
+
+class AutoForward(Resource):
+    def get(self):
+      return make_response(render_template('email/autoforward.html'))
+
+    def post(self):
+        with open("app/json_files/apis.json") as f:
+            apis = json.load(f)
+        with open("app/json_files/headers.json") as f:
+            headers = json.load(f)
+        with open('app/json_files/body.json') as f:
+            body = json.load(f)
+        url = apis.get('AutoForwardEmail', {})
+        token = generatetoken()
+        token = 'Bearer {}'.format(token)
+        headers["headers"]["AutoForwardEmail"]["Authorization"] = token
+        headers = headers["headers"]["AutoForwardEmail"]
+        body["AutoForwardBody"]["conditions"]["fromAddresses"][0]["emailAddress"]["address"]=request.form["email_from"]
+        body["AutoForwardBody"]["actions"]["forwardTo"][0]["emailAddress"]["address"] = request.form["email_to"]
+        body = body.get('AutoForwardBody', {})
+
+        r=requests.post(url, headers=headers, data=json.dumps(body))
+        data="Auto Forward is successfully set!"
+        return make_response(render_template('email/autoforward.html',data=data))
+
+class AutoReplyEmail(Resource):
+    def get(self):
+      return make_response(render_template('email/autoreply.html'))
+
+    def post(self):
+        with open("app/json_files/apis.json") as f:
+            apis = json.load(f)
+        with open("app/json_files/headers.json") as f:
+            headers = json.load(f)
+        with open('app/json_files/body.json') as f:
+            body = json.load(f)
+        url = apis.get('AutoReplyEmail', {})
+        token = generatetoken()
+        token = 'Bearer {}'.format(token)
+        headers["headers"]["AutoReplyEmail"]["Authorization"] = token
+        headers = headers["headers"]["AutoReplyEmail"]
+
+        body["AutoReplyEmailBody"]["automaticRepliesSetting"]["internalReplyMessage"] = request.form["reply1"]
+        body["AutoReplyEmailBody"]["automaticRepliesSetting"]["externalReplyMessage"] = request.form["reply2"]
+        #body["AutoReplyEmailBody"]["automaticRepliesSetting"]["scheduledStartDateTime"]["dateTime"]=request.form["scheduledStartDateTime"]
+        #body["AutoReplyEmailBody"]["automaticRepliesSetting"]["scheduledEndDateTime"]["dateTime"]=request.form["scheduledEndDateTime"]
+        body = body.get('AutoReplyEmailBody', {})
+
+        r=requests.patch(url, headers=headers, data=json.dumps(body))
+        print(r.json())
+        data = "Auto Reply is successfully set!"
+        return make_response(render_template('email/autoreply.html',data=data))
 
 api.add_resource(index, '/')
 api.add_resource(login, '/login')
@@ -299,4 +393,7 @@ api.add_resource(listContact, '/listContact')
 api.add_resource(updateContact,"/updateContact","/updateContact/<string:email>")
 api.add_resource(deleteContact,"/deleteContact","/deleteContact/<string:email>")
 api.add_resource(outlook,"/outlook")
+api.add_resource(oneDrive,"/onedrive")
 api.add_resource(reportgraph,"/reportgraph")
+api.add_resource(AutoForward,"/autoforward")
+api.add_resource(AutoReplyEmail,"/autoreply")
