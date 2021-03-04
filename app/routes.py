@@ -92,6 +92,11 @@ class index(Resource):
     def get(self):
         return redirect(url_for('login'))
 
+class dashboard(Resource):
+    @login_required
+    def get(self):
+        username = session.get("USERNAME")
+        return make_response(render_template('dashboard.html',username=username))
 
 class login(Resource):
     def get(self):
@@ -102,7 +107,8 @@ class login(Resource):
         if user:
             if check_password_hash(user.password, request.form["password"]):
                 login_user(user)
-                return redirect(url_for('dashboard',username=user.username))
+                session["USERNAME"] = user.username
+                return redirect(url_for('dashboard'))
 
         with open("app/json_files/error_messages.json") as f:
             errors = json.load(f)
@@ -151,17 +157,11 @@ class logout(Resource):
         return redirect(url_for('login'))
 
 
-class dashboard(Resource):
-    @login_required
-    def get(self):
-        username = request.args['username']
-        return make_response(render_template('dashboard.html',username=username))
-
-
 class createContact(Resource):
     @login_required
     def get(self):
-        return make_response(render_template('contacts/createcontact.html'))
+        username = session.get("USERNAME")
+        return make_response(render_template('contacts/createcontact.html',username=username))
 
     def post(self):
         with open("app/json_files/apis.json") as f:
@@ -194,6 +194,7 @@ class createContact(Resource):
 class listContact(Resource):
     @login_required
     def get(self):
+        username = session.get("USERNAME")
         with open("app/json_files/apis.json") as f:
             apis = json.load(f)
         with open("app/json_files/headers.json") as f:
@@ -215,15 +216,17 @@ class listContact(Resource):
         #     listdata.extend(sub_response["value"])
         #     sub_url = sub_response["@odata.nextLink"]
         # data = listdata.json()
-        return make_response(render_template("contacts/listcontact.html", data=data))
+        return make_response(render_template("contacts/listcontact.html", data=data,username=username))
 
 
 class updateContact(Resource):
     @login_required
     def get(self, email):
-        return make_response(render_template('contacts/updatecontact.html', email=email))
+        username = session.get("USERNAME")
+        return make_response(render_template('contacts/updatecontact.html', email=email,username=username))
 
     def post(self):
+        username = session.get("USERNAME")
         with open("app/json_files/apis.json") as f:
             apis = json.load(f)
         with open("app/json_files/headers.json") as f:
@@ -251,15 +254,17 @@ class updateContact(Resource):
 
             r = requests.patch(url, headers=headers, data=json.dumps(body))
             return redirect(url_for('listcontact'))
-        return make_response(render_template("contacts/updatecontact.html", errors="Email is not available"))
+        return make_response(render_template("contacts/updatecontact.html", errors="Email is not available",username=username))
 
 
 class deleteContact(Resource):
     @login_required
     def get(self):
-        return make_response(render_template('contacts/deletecontact.html'))
+        username = session.get("USERNAME")
+        return make_response(render_template('contacts/deletecontact.html',username=username))
 
     def post(self, email):
+        username = session.get("USERNAME")
         with open("app/json_files/apis.json") as f:
             apis = json.load(f)
         with open("app/json_files/headers.json") as f:
@@ -273,12 +278,13 @@ class deleteContact(Resource):
             headers = headers["headers"]["createContact"]
             r = requests.delete(url, headers=headers)
             return redirect(url_for('listcontact'))
-        return make_response(render_template("contacts/deletecontact.html", errors="Email is not available!"))
+        return make_response(render_template("contacts/deletecontact.html", errors="Email is not available!",username=username))
 
 
 class outlook(Resource):
     @login_required
     def get(self):
+        username = session.get("USERNAME")
         with open("app/json_files/apis.json") as f:
             apis = json.load(f)
         with open("app/json_files/headers.json") as f:
@@ -299,37 +305,34 @@ class outlook(Resource):
         createCsv(url, headers, userActivityCount_file)
         datacount = readCsv(userActivityCount_file)
 
-        return make_response(render_template('report/outlook.html', data=data, datacount=datacount))
+        return make_response(render_template('report/outlook.html', data=data, datacount=datacount,username=username))
 
 
-class oneDrive(Resource):
-    @login_required
+class onedrive(Resource):
     def get(self):
+        username = session.get("USERNAME")
         with open("app/json_files/apis.json") as f:
             apis = json.load(f)
         with open("app/json_files/headers.json") as f:
             headers = json.load(f)
-
         userActivity_file = " userActivity.csv"
-        url = apis.get('getEmailActivityUserDetail', {})
+        url = apis.get('getOneDriveActivityUserDetail', {})
         token = generatetoken()
         token = 'Bearer {}'.format(token)
-        headers["headers"]["getEmailActivityUserDetail"]["Authorization"] = token
-        headers = headers["headers"]["getEmailActivityUserDetail"]
-
-        createCsv(url, headers, userActivity_file)
+        headers["headers"]["getOneDriveActivityUserDetail"]["Authorization"] = token
+        headers = headers["headers"]["getOneDriveActivityUserDetail"]
+        createCsv(url,headers,userActivity_file)
         data = readCsv(userActivity_file)
-
-        userActivityCount_file = " userUsageDetail.csv"
-        url = apis.get('getEmailAppUsageUserDetail', {})
+        userActivityCount_file = " userActivityCount.csv"
+        url = apis.get('getOneDriveActivityUserCounts', {})
         createCsv(url, headers, userActivityCount_file)
         datacount = readCsv(userActivityCount_file)
-
-        return make_response(render_template('report/outlook.html', data=data, datacount=datacount))
+        return make_response(render_template('report/onedrive.html', data=data,datacount=datacount, username=username))
 
 
 class reportgraph(Resource):
     def get(self):
+        username = session.get("USERNAME")
         with open("app/json_files/apis.json") as f:
             apis = json.load(f)
         with open("app/json_files/headers.json") as f:
@@ -347,15 +350,17 @@ class reportgraph(Resource):
         for i in data["value"]:
             size.append([i["name"], (round(i["size"] / (1024 ** 2), 2))])
         print(size)
-        return make_response(render_template('report/reportgraph.html', data=size))
+        return make_response(render_template('report/reportgraph.html', data=size,username=username))
 
 
 class AutoForward(Resource):
     @login_required
     def get(self):
-        return make_response(render_template('email/autoforward.html'))
+        username = session.get("USERNAME")
+        return make_response(render_template('email/autoforward.html',username=username))
 
     def post(self):
+        username = session.get("USERNAME")
         with open("app/json_files/apis.json") as f:
             apis = json.load(f)
         with open("app/json_files/headers.json") as f:
@@ -379,15 +384,17 @@ class AutoForward(Resource):
 
         r = requests.post(url, headers=headers, data=json.dumps(body))
         data = "Auto Forward is successfully set!"
-        return make_response(render_template('email/autoforward.html', data=data))
+        return make_response(render_template('email/autoforward.html', data=data,username=username))
 
 
 class AutoReplyEmail(Resource):
     @login_required
     def get(self):
-        return make_response(render_template('email/autoreply.html'))
+        username = session.get("USERNAME")
+        return make_response(render_template('email/autoreply.html',username=username))
 
     def post(self):
+        username = session.get("USERNAME")
         with open("app/json_files/apis.json") as f:
             apis = json.load(f)
         with open("app/json_files/headers.json") as f:
@@ -422,10 +429,10 @@ class AutoReplyEmail(Resource):
 
             if diff_time1 < 10:
                 errors = "Your start time should be 10 minutes more than current time!"
-                return make_response(render_template('email/autoreply.html', errors=errors))
+                return make_response(render_template('email/autoreply.html', errors=errors,username=username))
             elif diff_time2 < 60:
                 errors = "Your end time should be 1 hour more than your start time!"
-                return make_response(render_template('email/autoreply.html', errors=errors))
+                return make_response(render_template('email/autoreply.html', errors=errors,username=username))
             else:
                 body["AutoReplyEmailBody"]["automaticRepliesSetting"]["internalReplyMessage"] = request.form["reply1"]
                 body["AutoReplyEmailBody"]["automaticRepliesSetting"]["externalReplyMessage"] = request.form["reply2"]
@@ -442,7 +449,7 @@ class AutoReplyEmail(Resource):
             data = "Auto Reply is disabled successfully!"
         else:
             data = "Auto Reply is successfully set!"
-        return make_response(render_template('email/autoreply.html', data=data))
+        return make_response(render_template('email/autoreply.html', data=data,username=username))
 
 
 api.add_resource(index, '/')
@@ -455,7 +462,7 @@ api.add_resource(listContact, '/listContact')
 api.add_resource(updateContact, "/updateContact", "/updateContact/<string:email>")
 api.add_resource(deleteContact, "/deleteContact", "/deleteContact/<string:email>")
 api.add_resource(outlook, "/outlook")
-api.add_resource(oneDrive, "/onedrive")
+api.add_resource(onedrive, "/onedrive")
 api.add_resource(reportgraph, "/reportgraph")
 api.add_resource(AutoForward, "/autoforward")
 api.add_resource(AutoReplyEmail, "/autoreply")

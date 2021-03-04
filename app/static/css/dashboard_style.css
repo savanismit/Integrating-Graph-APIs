@@ -4,10 +4,17 @@
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-simple-sidebar/blob/master/LICENSE)
  */
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
-
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
 body {
-  font-family: "Open Sans", Arial;
+  font-family: 'Josefin Sans', sans-serif;
   background: #EDEDED;
+}
+
+.dashboard_content{
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-38%, -50%);
 }
 
  body, html, .container-fluid, .sidebar, .body {
@@ -32,6 +39,7 @@ body{
 
  #wrapper {
     overflow-x: hidden;
+    overflow-y: hidden;
  }
 
 #sidebar-wrapper {

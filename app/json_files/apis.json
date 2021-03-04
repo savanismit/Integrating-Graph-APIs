@@ -4,5 +4,7 @@
   "getEmailAppUsageUserDetail": "https://graph.microsoft.com/v1.0/reports/getEmailAppUsageUserDetail(period='D180')",
   "AutoForwardEmail": "https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/mailFolders/inbox/messageRules",
   "AutoReplyEmail": "https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/mailboxSettings",
-  "timeZone": "https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/mailboxSettings/timeZone"
+  "timeZone": "https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/mailboxSettings/timeZone",
+"getOneDriveActivityUserDetail": "https://graph.microsoft.com/v1.0/reports/getOneDriveActivityUserDetail(period='D180')",
+"getOneDriveActivityUserCounts": "https://graph.microsoft.com/v1.0/reports/getOneDriveActivityUserCounts(period='D180')"
 }

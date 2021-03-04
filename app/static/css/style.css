@@ -1,16 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
 *{
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
 }
 
-html {
-  overflow-x: initial !important;
-}
 
 body{
-    font-family: 'Poppins', sans-serif;
-    overflow: hidden;
+    font-family: 'Josefin Sans', sans-serif;
+    overflow: hidden; !important;
 }
 
 .wave{
