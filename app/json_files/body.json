@@ -18,15 +18,9 @@
   "AutoForwardBody": {
     "displayName": "From collegue",
     "sequence": "2",
-    "isEnabled": "true",
+    "isEnabled": "false",
     "conditions": {
-      "fromAddresses": [
-        {
-          "emailAddress": {
-            "address": "from email"
-          }
-        }
-      ]
+      "sentToMe": "false"
     },
     "actions": {
       "forwardTo": [

@@ -372,18 +372,19 @@ class AutoForward(Resource):
         token = 'Bearer {}'.format(token)
         headers["headers"]["AutoForwardEmail"]["Authorization"] = token
         headers = headers["headers"]["AutoForwardEmail"]
-        body["AutoForwardBody"]["conditions"]["fromAddresses"][0]["emailAddress"]["address"] = request.form[
-            "email_from"]
         body["AutoForwardBody"]["actions"]["forwardTo"][0]["emailAddress"]["address"] = request.form["email_to"]
 
         if request.form["option"] == "Disabled":
+            data = "Auto Forward is successfully Disabled!"
             body["AutoForwardBody"]["isEnabled"] = "false"
         else:
+            body["AutoForwardBody"]["conditions"]["sentToMe"] = "true"
+            data = "Auto Forward is successfully Enabled!"
             body["AutoForwardBody"]["isEnabled"] = "true"
         body = body.get('AutoForwardBody', {})
 
         r = requests.post(url, headers=headers, data=json.dumps(body))
-        data = "Auto Forward is successfully set!"
+        print(r.json())
         return make_response(render_template('email/autoforward.html', data=data,username=username))
 
 
