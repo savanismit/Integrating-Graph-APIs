@@ -39,6 +39,19 @@ Auto Forward Email
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Select a Option</label>
+                    <div class="col-md-4 selectContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                            <select id="selectBox" onchange="changeFunc();" name="option" class="form-control selectpicker">
+                                <option value="Enabled" selected>Enabled</option>
+                                <option value="Disabled">Disabled</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <center>
                     {% if errors %}
                     <p class="error" style="color:red;">{{errors}}</p>

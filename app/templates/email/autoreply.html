@@ -11,30 +11,68 @@ Auto Reply Email
             <fieldset>
                 <!-- Form Name -->
                 <legend>
-                    <center><h2><b>Set Auto Forward</b></h2></center>
+                    <center><h2><b>Set Auto Reply</b></h2></center>
                 </legend>
                 <br>
 
-                <!-- Text input-->
                 <div class="form-group">
-                    <label class="col-md-4 control-label">Reply</label>
-                    <div class="col-md-4 inputGroupContainer">
+                    <label class="col-md-4 control-label">Select a Option</label>
+                    <div class="col-md-4 selectContainer">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                            <input name="reply1" placeholder="Reply" class="form-control"
-                                   type="text" required>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                            <select id="selectBox" onchange="changeFunc();" name="option" class="form-control selectpicker">
+                                <option value="Scheduled" selected>Scheduled</option>
+                                <option value="Disabled">Disabled</option>
+                                <option value="Enabled">Always Enabled</option>
+                            </select>
                         </div>
                     </div>
                 </div>
 
                 <!-- Text input-->
-                <div class="form-group">
-                    <label class="col-md-4 control-label">Reply2</label>
+                <div class="form-group" id="reply1">
+                    <label class="col-md-4 control-label">Subject</label>
                     <div class="col-md-4 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                            <input name="reply2" placeholder="Reply" class="form-control"
-                                   type="text" required>
+                            <input name="reply1" placeholder="Enter Subject" class="form-control"
+                                   type="text" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group" id="reply2">
+                    <label class="col-md-4 control-label">Message</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input name="reply2" placeholder="Enter Message" class="form-control"
+                                   type="text" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" id="1">
+                    <label class="col-md-4 control-label">Start Time</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                            <input name="starttime" id="datetimepicker" placeholder="Select Start time/date"
+                                   class="form-control"
+                                   type="text" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" id="2">
+                    <label class="col-md-4 control-label">End Time</label>
+                    <div class="col-md-4 inputGroupContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                            <input name="endtime" id="datetimepicker2" placeholder="Select End time/date"
+                                   class="form-control"
+                                   type="text" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -52,5 +90,27 @@ Auto Reply Email
         </form>
     </div>
 </div><!-- /.container -->
+<script type="text/javascript" src="../static/js/mail.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.js"></script>
+<script>
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1;
+var yyyy = today.getFullYear();
+if(dd<10) { dd='0'+dd; }
+if(mm<10) { mm='0'+mm; }
+
+today = yyyy+'-'+mm+'-'+dd;
+$('#datetimepicker').datetimepicker({
+    format:'Y-m-d H:i',
+    minDate:today,
+});
+$('#datetimepicker2').datetimepicker({
+    format:'Y-m-d H:i',
+    minDate:today,
+});</script>
 {% endblock %}
 

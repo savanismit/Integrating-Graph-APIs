@@ -3,5 +3,6 @@
   "getEmailActivityUserDetail": "https://graph.microsoft.com/v1.0/reports/getEmailActivityUserDetail(period='D180')",
   "getEmailAppUsageUserDetail": "https://graph.microsoft.com/v1.0/reports/getEmailAppUsageUserDetail(period='D180')",
   "AutoForwardEmail": "https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/mailFolders/inbox/messageRules",
-  "AutoReplyEmail": "https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/mailboxSettings"
+  "AutoReplyEmail": "https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/mailboxSettings",
+  "timeZone": "https://graph.microsoft.com/v1.0/users/smit.s@turabittrialtest.onmicrosoft.com/mailboxSettings/timeZone"
 }

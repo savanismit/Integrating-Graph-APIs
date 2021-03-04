@@ -8,15 +8,19 @@ from flask_restful import Resource, Api
 from msal import ConfidentialClientApplication
 import os.path
 from csv import DictReader
+import datetime
+from datetime import datetime
 
 api = Api(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 def generatetoken():
     with open('app/json_files/credential.json') as f:
@@ -36,6 +40,7 @@ def generatetoken():
 
     token = result.get('access_token', {})
     return token
+
 
 # get user id for contact update
 def getId(email):
@@ -57,14 +62,16 @@ def getId(email):
             user_id = i["id"]
             return user_id
 
-#To create & read Report-CSV File
-def createCsv(url,headers,file):
+
+# To create & read Report-CSV File
+def createCsv(url, headers, file):
     r = requests.get(url, headers=headers)
 
     my_path = os.path.abspath(os.path.dirname(__file__))
     path = os.path.join(my_path, file)
     f = open(path, "w")
     f.write(r.text)
+
 
 def readCsv(file):
     my_path = os.path.abspath(os.path.dirname(__file__))
@@ -77,12 +84,14 @@ def readCsv(file):
             list_report.append(dict(i))
     return list_report
 
+
 class index(Resource):
     def __init__(self):
         pass
 
     def get(self):
         return redirect(url_for('login'))
+
 
 class login(Resource):
     def get(self):
@@ -93,12 +102,13 @@ class login(Resource):
         if user:
             if check_password_hash(user.password, request.form["password"]):
                 login_user(user)
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('dashboard',username=user.username))
 
         with open("app/json_files/error_messages.json") as f:
             errors = json.load(f)
         errors["error_message"] = 'Invalid Username or Password!'
         return make_response(render_template('login.html', errors=errors["error_message"]))
+
 
 class signup(Resource):
     def get(self):
@@ -140,10 +150,13 @@ class logout(Resource):
         logout_user()
         return redirect(url_for('login'))
 
+
 class dashboard(Resource):
     @login_required
     def get(self):
-        return make_response(render_template('dashboard.html'))
+        username = request.args['username']
+        return make_response(render_template('dashboard.html',username=username))
+
 
 class createContact(Resource):
     @login_required
@@ -177,6 +190,7 @@ class createContact(Resource):
         requests.post(url, headers=headers, data=json.dumps(body))
         return redirect(url_for('listcontact'))
 
+
 class listContact(Resource):
     @login_required
     def get(self):
@@ -203,10 +217,11 @@ class listContact(Resource):
         # data = listdata.json()
         return make_response(render_template("contacts/listcontact.html", data=data))
 
+
 class updateContact(Resource):
     @login_required
-    def get(self,email):
-        return make_response(render_template('contacts/updatecontact.html',email = email))
+    def get(self, email):
+        return make_response(render_template('contacts/updatecontact.html', email=email))
 
     def post(self):
         with open("app/json_files/apis.json") as f:
@@ -219,7 +234,7 @@ class updateContact(Resource):
 
         id = getId(oldemail)
         if id:
-            url = apis.get('create_contact', {}) + "/"+id
+            url = apis.get('create_contact', {}) + "/" + id
             token = generatetoken()
             token = 'Bearer {}'.format(token)
             headers["headers"]["createContact"]["Authorization"] = token
@@ -244,14 +259,14 @@ class deleteContact(Resource):
     def get(self):
         return make_response(render_template('contacts/deletecontact.html'))
 
-    def post(self,email):
+    def post(self, email):
         with open("app/json_files/apis.json") as f:
             apis = json.load(f)
         with open("app/json_files/headers.json") as f:
             headers = json.load(f)
         id = getId(email)
         if id:
-            url = apis.get('create_contact', {}) + "/"+id
+            url = apis.get('create_contact', {}) + "/" + id
             token = generatetoken()
             token = 'Bearer {}'.format(token)
             headers["headers"]["createContact"]["Authorization"] = token
@@ -259,6 +274,7 @@ class deleteContact(Resource):
             r = requests.delete(url, headers=headers)
             return redirect(url_for('listcontact'))
         return make_response(render_template("contacts/deletecontact.html", errors="Email is not available!"))
+
 
 class outlook(Resource):
     @login_required
@@ -275,7 +291,7 @@ class outlook(Resource):
         headers["headers"]["getEmailActivityUserDetail"]["Authorization"] = token
         headers = headers["headers"]["getEmailActivityUserDetail"]
 
-        createCsv(url,headers,userActivity_file)
+        createCsv(url, headers, userActivity_file)
         data = readCsv(userActivity_file)
 
         userActivityCount_file = " userUsageDetail.csv"
@@ -283,7 +299,8 @@ class outlook(Resource):
         createCsv(url, headers, userActivityCount_file)
         datacount = readCsv(userActivityCount_file)
 
-        return make_response(render_template('report/outlook.html', data=data,datacount=datacount))
+        return make_response(render_template('report/outlook.html', data=data, datacount=datacount))
+
 
 class oneDrive(Resource):
     @login_required
@@ -300,7 +317,7 @@ class oneDrive(Resource):
         headers["headers"]["getEmailActivityUserDetail"]["Authorization"] = token
         headers = headers["headers"]["getEmailActivityUserDetail"]
 
-        createCsv(url,headers,userActivity_file)
+        createCsv(url, headers, userActivity_file)
         data = readCsv(userActivity_file)
 
         userActivityCount_file = " userUsageDetail.csv"
@@ -309,6 +326,7 @@ class oneDrive(Resource):
         datacount = readCsv(userActivityCount_file)
 
         return make_response(render_template('report/outlook.html', data=data, datacount=datacount))
+
 
 class reportgraph(Resource):
     def get(self):
@@ -325,15 +343,17 @@ class reportgraph(Resource):
 
         data = requests.get(url, headers=headers)
         data = data.json()
-        size = [["Name","Size"]]
+        size = [["Name", "Size"]]
         for i in data["value"]:
-            size.append([i["name"],(round(i["size"]/(1024**2),2))])
+            size.append([i["name"], (round(i["size"] / (1024 ** 2), 2))])
         print(size)
-        return make_response(render_template('report/reportgraph.html',data=size))
+        return make_response(render_template('report/reportgraph.html', data=size))
+
 
 class AutoForward(Resource):
+    @login_required
     def get(self):
-      return make_response(render_template('email/autoforward.html'))
+        return make_response(render_template('email/autoforward.html'))
 
     def post(self):
         with open("app/json_files/apis.json") as f:
@@ -347,17 +367,25 @@ class AutoForward(Resource):
         token = 'Bearer {}'.format(token)
         headers["headers"]["AutoForwardEmail"]["Authorization"] = token
         headers = headers["headers"]["AutoForwardEmail"]
-        body["AutoForwardBody"]["conditions"]["fromAddresses"][0]["emailAddress"]["address"]=request.form["email_from"]
+        body["AutoForwardBody"]["conditions"]["fromAddresses"][0]["emailAddress"]["address"] = request.form[
+            "email_from"]
         body["AutoForwardBody"]["actions"]["forwardTo"][0]["emailAddress"]["address"] = request.form["email_to"]
+
+        if request.form["option"] == "Disabled":
+            body["AutoForwardBody"]["isEnabled"] = "false"
+        else:
+            body["AutoForwardBody"]["isEnabled"] = "true"
         body = body.get('AutoForwardBody', {})
 
-        r=requests.post(url, headers=headers, data=json.dumps(body))
-        data="Auto Forward is successfully set!"
-        return make_response(render_template('email/autoforward.html',data=data))
+        r = requests.post(url, headers=headers, data=json.dumps(body))
+        data = "Auto Forward is successfully set!"
+        return make_response(render_template('email/autoforward.html', data=data))
+
 
 class AutoReplyEmail(Resource):
+    @login_required
     def get(self):
-      return make_response(render_template('email/autoreply.html'))
+        return make_response(render_template('email/autoreply.html'))
 
     def post(self):
         with open("app/json_files/apis.json") as f:
@@ -371,17 +399,51 @@ class AutoReplyEmail(Resource):
         token = 'Bearer {}'.format(token)
         headers["headers"]["AutoReplyEmail"]["Authorization"] = token
         headers = headers["headers"]["AutoReplyEmail"]
+        urlTime = apis.get('timeZone', {})
+        time = requests.get(urlTime, headers=headers).json()
 
-        body["AutoReplyEmailBody"]["automaticRepliesSetting"]["internalReplyMessage"] = request.form["reply1"]
-        body["AutoReplyEmailBody"]["automaticRepliesSetting"]["externalReplyMessage"] = request.form["reply2"]
-        #body["AutoReplyEmailBody"]["automaticRepliesSetting"]["scheduledStartDateTime"]["dateTime"]=request.form["scheduledStartDateTime"]
-        #body["AutoReplyEmailBody"]["automaticRepliesSetting"]["scheduledEndDateTime"]["dateTime"]=request.form["scheduledEndDateTime"]
+        if request.form["option"] == "Disabled":
+            body["AutoReplyEmailBody"]["automaticRepliesSetting"]["status"] = "disabled"
+        elif request.form["option"] == "Enabled":
+            body["AutoReplyEmailBody"]["automaticRepliesSetting"]["internalReplyMessage"] = request.form["reply1"]
+            body["AutoReplyEmailBody"]["automaticRepliesSetting"]["externalReplyMessage"] = request.form["reply2"]
+            body["AutoReplyEmailBody"]["automaticRepliesSetting"]["status"] = "alwaysEnabled"
+        else:
+            start_date_time = request.form["starttime"]
+            end_date_time = request.form["endtime"]
+
+            start_date_time_obj = datetime.fromisoformat(start_date_time)
+            end_date_time_obj = datetime.fromisoformat(end_date_time)
+
+            curr_time = datetime.fromisoformat(str(datetime.now())[:-7])
+            diff_time1 = ((start_date_time_obj - curr_time).total_seconds()) / 60
+
+            diff_time2 = ((end_date_time_obj - start_date_time_obj).total_seconds()) / 60
+
+            if diff_time1 < 10:
+                errors = "Your start time should be 10 minutes more than current time!"
+                return make_response(render_template('email/autoreply.html', errors=errors))
+            elif diff_time2 < 60:
+                errors = "Your end time should be 1 hour more than your start time!"
+                return make_response(render_template('email/autoreply.html', errors=errors))
+            else:
+                body["AutoReplyEmailBody"]["automaticRepliesSetting"]["internalReplyMessage"] = request.form["reply1"]
+                body["AutoReplyEmailBody"]["automaticRepliesSetting"]["externalReplyMessage"] = request.form["reply2"]
+                body["AutoReplyEmailBody"]["automaticRepliesSetting"]["status"] = "scheduled"
+                body["AutoReplyEmailBody"]["automaticRepliesSetting"]["scheduledStartDateTime"]["dateTime"] = start_date_time
+                body["AutoReplyEmailBody"]["automaticRepliesSetting"]["scheduledEndDateTime"]["dateTime"] = end_date_time
+                body["AutoReplyEmailBody"]["automaticRepliesSetting"]["scheduledStartDateTime"]["timeZone"] = time["value"]
+                body["AutoReplyEmailBody"]["automaticRepliesSetting"]["scheduledEndDateTime"]["timeZone"] = time["value"]
         body = body.get('AutoReplyEmailBody', {})
 
-        r=requests.patch(url, headers=headers, data=json.dumps(body))
+        r = requests.patch(url, headers=headers, data=json.dumps(body))
         print(r.json())
-        data = "Auto Reply is successfully set!"
-        return make_response(render_template('email/autoreply.html',data=data))
+        if request.form["option"] == "Disabled":
+            data = "Auto Reply is disabled successfully!"
+        else:
+            data = "Auto Reply is successfully set!"
+        return make_response(render_template('email/autoreply.html', data=data))
+
 
 api.add_resource(index, '/')
 api.add_resource(login, '/login')
@@ -390,10 +452,10 @@ api.add_resource(logout, '/logout')
 api.add_resource(dashboard, '/dashboard')
 api.add_resource(createContact, '/createContact')
 api.add_resource(listContact, '/listContact')
-api.add_resource(updateContact,"/updateContact","/updateContact/<string:email>")
-api.add_resource(deleteContact,"/deleteContact","/deleteContact/<string:email>")
-api.add_resource(outlook,"/outlook")
-api.add_resource(oneDrive,"/onedrive")
-api.add_resource(reportgraph,"/reportgraph")
-api.add_resource(AutoForward,"/autoforward")
-api.add_resource(AutoReplyEmail,"/autoreply")
+api.add_resource(updateContact, "/updateContact", "/updateContact/<string:email>")
+api.add_resource(deleteContact, "/deleteContact", "/deleteContact/<string:email>")
+api.add_resource(outlook, "/outlook")
+api.add_resource(oneDrive, "/onedrive")
+api.add_resource(reportgraph, "/reportgraph")
+api.add_resource(AutoForward, "/autoforward")
+api.add_resource(AutoReplyEmail, "/autoreply")
